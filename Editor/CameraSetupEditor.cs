@@ -6,7 +6,7 @@ namespace TPPCamera.CameraSetupComponent {
     [CustomEditor(typeof(CameraSetup))]
     class CameraSetupEditor : Editor {
 
-        private Camera Script { get; set; }
+        private TPPCam Script { get; set; }
 
         private SerializedProperty cameraCo;
 

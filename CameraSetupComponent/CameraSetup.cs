@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using Camera = TPPCamera.CameraComponent.Camera;
+﻿using TPPCamera.CameraComponent;
+using UnityEngine;
 
 namespace TPPCamera.CameraSetupComponent {
 
     public class CameraSetup : MonoBehaviour {
 
         [SerializeField]
-        private Camera cameraCo;
+        private TPPCam cameraCo;
 
     }
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TPPCamera.CameraComponent {
 
-    public class Camera : MonoBehaviour {
+    public class TPPCam : MonoBehaviour {
 
         // modes
 
