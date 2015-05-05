@@ -47,18 +47,18 @@ class GameCameraEditor : Editor {
     public override void OnInspectorGUI() {
         serializedObject.Update();
 
-        EditorGUILayout.PropertyField(cameraLimits);
+        EditorGUILayout.PropertyField(mode);
+        EditorGUILayout.PropertyField(targetTransform);
         EditorGUILayout.PropertyField(cameraOcclusionLayerMask);
         EditorGUILayout.PropertyField(cameraOffset);
-        EditorGUILayout.PropertyField(cameraRotationSpeed);
-        EditorGUILayout.PropertyField(followSpeed);
         EditorGUILayout.PropertyField(lookAtPointOffset);
-        EditorGUILayout.PropertyField(lookAtPointWhenNotVisible);
-        EditorGUILayout.PropertyField(mode);
-        EditorGUILayout.PropertyField(movementVelocityOffset);
-        EditorGUILayout.PropertyField(offsetWhenNotVisible);
+        EditorGUILayout.PropertyField(followSpeed);
+        EditorGUILayout.PropertyField(cameraRotationSpeed);
         EditorGUILayout.PropertyField(perspectiveChangeSpeed);
-        EditorGUILayout.PropertyField(targetTransform);
+        EditorGUILayout.PropertyField(movementVelocityOffset);
+        EditorGUILayout.PropertyField(cameraLimits);
+        EditorGUILayout.PropertyField(lookAtPointWhenNotVisible);
+        EditorGUILayout.PropertyField(offsetWhenNotVisible);
 
         serializedObject.ApplyModifiedProperties();
     }
