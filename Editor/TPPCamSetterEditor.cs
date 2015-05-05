@@ -65,18 +65,18 @@ namespace TPPCamera.CameraSetupComponent {
 
             GUILayout.Label("TPPCam Properties", EditorStyles.boldLabel);
 
-            DrawTargetTransformField();
-            DrawFollowSpeedField();
-            DrawCameraRotationSpeedField();
-            DrawPerspectiveChangeSpeedField();
-            DrawModeDropdown();
-            DrawOcclusionLayerMaskDropdown();
+            //DrawTargetTransformField();
+            //DrawFollowSpeedField();
+            //DrawCameraRotationSpeedField();
+            //DrawPerspectiveChangeSpeedField();
+            //DrawModeDropdown();
+            //DrawOcclusionLayerMaskDropdown();
             DrawCameraOffsetField();
-            DrawOffsetWhenNotVisibleField();
+            //DrawOffsetWhenNotVisibleField();
             DrawLookAtPointOffsetField();
-            DrawLookAtPointWhenNotVisibleField();
-            DrawCameraLimitsField();
-            DrawMovementVelocityOffsetField();
+            //DrawLookAtPointWhenNotVisibleField();
+            //DrawCameraLimitsField();
+            //DrawMovementVelocityOffsetField();
 
 
             serializedObject.ApplyModifiedProperties();
