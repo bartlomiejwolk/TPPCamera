@@ -1,7 +1,9 @@
 using UnityEngine;
 
+// todo create editor class
 public class GameCamera : MonoBehaviour {
 
+    // todo move to separate file
     // modes
     public enum Mode {
 
