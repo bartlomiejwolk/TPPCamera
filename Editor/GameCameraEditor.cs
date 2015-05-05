@@ -92,7 +92,7 @@ class GameCameraEditor : Editor {
             movementVelocityOffset,
             new GUIContent(
                 "Movement Velocity Offset",
-                "???\nTarget velocity will be multiplied by this value. " +
+                "???\nTarget velocity will be scaled by this value. " +
                 "In result, this affects camera lerp speed and occlusion " +
                 "offset."));
         EditorGUILayout.PropertyField(
