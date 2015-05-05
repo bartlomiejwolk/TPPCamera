@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TPPCamera.CameraComponent {
+namespace TPPCamera.TPPCamComponent {
 
     public class TPPCam : MonoBehaviour {
 

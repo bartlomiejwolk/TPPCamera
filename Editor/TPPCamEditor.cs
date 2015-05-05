@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace TPPCamera.CameraComponent {
+namespace TPPCamera.TPPCamComponent {
 
     [CustomEditor(typeof (TPPCam))]
     internal class TPPCamEditor : Editor {

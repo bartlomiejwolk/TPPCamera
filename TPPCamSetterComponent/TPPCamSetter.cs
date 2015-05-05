@@ -1,7 +1,7 @@
-﻿using TPPCamera.CameraComponent;
+﻿using TPPCamera.TPPCamComponent;
 using UnityEngine;
 
-namespace TPPCamera.CameraSetupComponent {
+namespace TPPCamera.TPPCamSetterComponent {
 
     public class TPPCamSetter : MonoBehaviour {
 

@@ -1,8 +1,8 @@
-﻿using TPPCamera.CameraComponent;
+﻿using TPPCamera.TPPCamComponent;
 using UnityEditor;
 using UnityEngine;
 
-namespace TPPCamera.CameraSetupComponent {
+namespace TPPCamera.TPPCamSetterComponent {
 
     [CustomEditor(typeof(TPPCamSetter))]
     class TPPCamSetterEditor : Editor {
