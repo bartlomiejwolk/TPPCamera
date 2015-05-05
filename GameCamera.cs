@@ -15,26 +15,43 @@ public class GameCamera : MonoBehaviour {
     #region FIELDS
 
     // limited camera
-    public Vector2 cameraLimits = new Vector2(5f, 5f);
+    [SerializeField]
+    private Vector2 cameraLimits = new Vector2(5f, 5f);
 
-    public LayerMask cameraOcclusionLayerMask = 1 << 9;
-    public Vector3 cameraOffset;
-    public float cameraRotationSpeed = 5f;
-    public float followSpeed = 5f;
-    public Vector2 lookAtPointOffset;
+    [SerializeField]
+    private LayerMask cameraOcclusionLayerMask = 1 << 9;
+
+    [SerializeField]
+    private Vector3 cameraOffset;
+
+    [SerializeField]
+    private float cameraRotationSpeed = 5f;
+
+    [SerializeField]
+    private float followSpeed = 5f;
+
+    [SerializeField]
+    private Vector2 lookAtPointOffset;
 
     // see through camera variables
-    public Vector3 lookAtPointWhenNotVisible;
+    [SerializeField]
+    private Vector3 lookAtPointWhenNotVisible;
 
-    public Mode mode;
-    public Vector3 movementVelocityOffset;
+    [SerializeField]
+    private Mode mode;
 
-    public Vector3 offsetWhenNotVisible;
+    [SerializeField]
+    private Vector3 movementVelocityOffset;
 
-    public float perspectiveChangeSpeed = 10f;
+    [SerializeField]
+    private Vector3 offsetWhenNotVisible;
+
+    [SerializeField]
+    private float perspectiveChangeSpeed = 10f;
 
     // main variables
-    public Transform target;
+    [SerializeField]
+    private Transform targetTransform;
 
     // camera follow target
     private Vector3 cameraTarget;
@@ -57,7 +74,7 @@ public class GameCamera : MonoBehaviour {
 
     private void Start() {
         smoothCamOffset = cameraOffset;
-        cameraTarget = target.position;
+        cameraTarget = targetTransform.position;
     }
 
     #endregion UNITY MESSAGES
@@ -66,10 +83,10 @@ public class GameCamera : MonoBehaviour {
 
     public bool DetectOccluders() {
         // get distance and direction for raycast
-        var cameraOffsetPos = target.position + cameraOffset;
+        var cameraOffsetPos = targetTransform.position + cameraOffset;
         // Ray length decreased by 0.1 to not hit the floor.
-        var tDist = (target.position - cameraOffsetPos).magnitude - 0.1f;
-        var tDir = (target.position - cameraOffsetPos).normalized;
+        var tDist = (targetTransform.position - cameraOffsetPos).magnitude - 0.1f;
+        var tDir = (targetTransform.position - cameraOffsetPos).normalized;
 
         // check if player visible
         RaycastHit hit;
@@ -85,10 +102,10 @@ public class GameCamera : MonoBehaviour {
     }
 
     protected void FollowTarget() {
-        if (target == null) return;
+        if (targetTransform == null) return;
 
         // target speed check
-        targetVelocity = (target.position - lastTargetPos) / Time.fixedDeltaTime;
+        targetVelocity = (targetTransform.position - lastTargetPos) / Time.fixedDeltaTime;
         targetVelocity = Vector3.Scale(targetVelocity, movementVelocityOffset);
         // camera movement speed
         var avgVelocity = (Mathf.Abs(targetVelocity.x)
@@ -101,11 +118,11 @@ public class GameCamera : MonoBehaviour {
 
         // control camera in Limited mode
         if (mode == Mode.Limited) {
-            if (Mathf.Abs(target.position.x - cameraTarget.x) > cameraLimits.x
+            if (Mathf.Abs(targetTransform.position.x - cameraTarget.x) > cameraLimits.x
                 ||
-                Mathf.Abs(target.position.z - cameraTarget.z) > cameraLimits.y) {
-                cameraTarget += (target.position - cameraTarget).normalized *
-                                (target.position - cameraTarget).magnitude
+                Mathf.Abs(targetTransform.position.z - cameraTarget.z) > cameraLimits.y) {
+                cameraTarget += (targetTransform.position - cameraTarget).normalized *
+                                (targetTransform.position - cameraTarget).magnitude
                                 * Time.fixedDeltaTime * followSpeed;
             }
             else {
@@ -113,11 +130,11 @@ public class GameCamera : MonoBehaviour {
             }
             cameraTarget = new Vector3(
                 cameraTarget.x,
-                target.position.y,
+                targetTransform.position.y,
                 cameraTarget.z);
         }
         else {
-            cameraTarget = target.position;
+            cameraTarget = targetTransform.position;
         }
 
         // detect if player is visible and set offset accordingly
@@ -147,7 +164,7 @@ public class GameCamera : MonoBehaviour {
              + (occlusionLookAtPointOffset + (transform.position - cameraTarget)))
             -
             transform.position,
-            target.up);
+            targetTransform.up);
 
         // apply transformations
         transform.position = Vector3.Lerp(
@@ -160,7 +177,7 @@ public class GameCamera : MonoBehaviour {
             cameraRotationSpeed * Time.fixedDeltaTime);
 
         // save last target position
-        lastTargetPos = target.position;
+        lastTargetPos = targetTransform.position;
     }
 
     #endregion METHODS
