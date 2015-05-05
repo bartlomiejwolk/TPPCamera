@@ -52,13 +52,18 @@ class GameCameraEditor : Editor {
         EditorGUILayout.PropertyField(
             targetTransform,
             new GUIContent("Target",
-                ""));
+                "Transform to follow."));
         EditorGUILayout.PropertyField(
             cameraOcclusionLayerMask,
             new GUIContent(
                 "Layer Mask",
-                ""));
-        EditorGUILayout.PropertyField(cameraOffset);
+                "If target gets behind an object specified by the layer mask " +
+                "it will be considered as not visible."));
+        EditorGUILayout.PropertyField(
+            cameraOffset,
+            new GUIContent(
+                "Camera Offset",
+                "Default camera position relative to the target."));
         EditorGUILayout.PropertyField(lookAtPointOffset);
         EditorGUILayout.PropertyField(followSpeed);
         EditorGUILayout.PropertyField(
@@ -70,7 +75,12 @@ class GameCameraEditor : Editor {
         EditorGUILayout.PropertyField(movementVelocityOffset);
         EditorGUILayout.PropertyField(cameraLimits);
         EditorGUILayout.PropertyField(lookAtPointWhenNotVisible);
-        EditorGUILayout.PropertyField(offsetWhenNotVisible);
+        EditorGUILayout.PropertyField(
+            offsetWhenNotVisible,
+            new GUIContent(
+                "Offset When Not Visible",
+                "Offset applied to 'Camera Offset' when target is not " +
+                "visible to the camera."));
 
         serializedObject.ApplyModifiedProperties();
     }
