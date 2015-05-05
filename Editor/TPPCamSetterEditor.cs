@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace TPPCamera.CameraSetupComponent {
 
-    [CustomEditor(typeof(CameraSetup))]
-    class CameraSetupEditor : Editor {
+    [CustomEditor(typeof(TPPCamSetter))]
+    class TPPCamSetterEditor : Editor {
 
         private TPPCam Script { get; set; }
 

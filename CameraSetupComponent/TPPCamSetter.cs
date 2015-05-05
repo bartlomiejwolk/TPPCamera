@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace TPPCamera.CameraSetupComponent {
 
-    public class CameraSetup : MonoBehaviour {
+    public class TPPCamSetter : MonoBehaviour {
 
         #region FIELDS
 
