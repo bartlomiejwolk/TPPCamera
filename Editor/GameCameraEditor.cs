@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace TPPCamera.CameraComponent {
 
-    [CustomEditor(typeof (GameCamera))]
+    [CustomEditor(typeof (Camera))]
     internal class GameCameraEditor : Editor {
 
         #region FIELDS
 
-        private GameCamera Script { get; set; }
+        private Camera Script { get; set; }
 
         #endregion
 
