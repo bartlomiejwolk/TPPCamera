@@ -49,45 +49,78 @@ class GameCameraEditor : Editor {
         serializedObject.Update();
 
         EditorGUILayout.PropertyField(
+            targetTransform,
+            new GUIContent("Target",
+                "Transform to follow."));
+
+        EditorGUILayout.PropertyField(followSpeed);
+
+        EditorGUILayout.PropertyField(
+            cameraRotationSpeed,
+            new GUIContent(
+                "Cam. Rot. Speed",
+                ""));
+
+        EditorGUILayout.PropertyField(
             mode,
             new GUIContent(
                 "Mode",
                 "Limited mode creates a dead zone around the target where " +
                 "target can move freely without causing the camera to move. " +
                 "Use 'Camera Limits' to set the dead zone."));
-        EditorGUILayout.PropertyField(
-            targetTransform,
-            new GUIContent("Target",
-                "Transform to follow."));
+
         EditorGUILayout.PropertyField(
             cameraOcclusionLayerMask,
             new GUIContent(
                 "Layer Mask",
                 "If target gets behind an object specified by the layer mask " +
-                "it will be considered as not visible."));
+                "it will be considered as occluded."));
+
+        GUILayout.Label("Target Visible", EditorStyles.boldLabel);
+
         EditorGUILayout.PropertyField(
             cameraOffset,
             new GUIContent(
                 "Camera Offset",
                 "Default camera position relative to the target."));
+
         EditorGUILayout.PropertyField(
             lookAtPointOffset,
             new GUIContent(
                 "Look At Point Offset",
                 "Use to offset target pivot point."));
-        EditorGUILayout.PropertyField(followSpeed);
-        EditorGUILayout.PropertyField(
-            cameraRotationSpeed,
-            new GUIContent(
-                "Cam. Rot. Speed",
-                ""));
+
+        GUILayout.Label("Target Occluded", EditorStyles.boldLabel);
+
         EditorGUILayout.PropertyField(
             perspectiveChangeSpeed,
             new GUIContent(
-                "Perspective Change",
+                "Perspective Speed",
                 "When target gets occluded and camera wants to change " +
                 "position to see the target again, this is how fast this " +
                 "will happen."));
+
+        EditorGUILayout.PropertyField(
+            offsetWhenNotVisible,
+            new GUIContent(
+                "Offset When Not Visible",
+                "Offset applied to 'Camera Offset' when target is not " +
+                "visible to the camera."));
+
+        EditorGUILayout.PropertyField(
+            lookAtPointWhenNotVisible,
+            new GUIContent(
+                "Look At Point When Not Visible",
+                "Use to offset target pivot point when target is occluded."));
+
+        GUILayout.Label("Other", EditorStyles.boldLabel);
+
+        EditorGUILayout.PropertyField(
+            cameraLimits,
+            new GUIContent(
+                "Camera Limits",
+                "Applies in 'Limited' mode."));
+
         EditorGUILayout.PropertyField(
             movementVelocityOffset,
             new GUIContent(
@@ -95,18 +128,6 @@ class GameCameraEditor : Editor {
                 "???\nTarget velocity will be scaled by this value. " +
                 "In result, this affects camera lerp speed and occlusion " +
                 "offset."));
-        EditorGUILayout.PropertyField(
-            cameraLimits,
-            new GUIContent(
-                "Camera Limits",
-                "Applies in 'Limited' mode."));
-        EditorGUILayout.PropertyField(lookAtPointWhenNotVisible);
-        EditorGUILayout.PropertyField(
-            offsetWhenNotVisible,
-            new GUIContent(
-                "Offset When Not Visible",
-                "Offset applied to 'Camera Offset' when target is not " +
-                "visible to the camera."));
 
         serializedObject.ApplyModifiedProperties();
     }
