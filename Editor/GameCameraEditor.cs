@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(GameCamera))]
 class GameCameraEditor : Editor {
@@ -48,12 +49,23 @@ class GameCameraEditor : Editor {
         serializedObject.Update();
 
         EditorGUILayout.PropertyField(mode);
-        EditorGUILayout.PropertyField(targetTransform);
-        EditorGUILayout.PropertyField(cameraOcclusionLayerMask);
+        EditorGUILayout.PropertyField(
+            targetTransform,
+            new GUIContent("Target",
+                ""));
+        EditorGUILayout.PropertyField(
+            cameraOcclusionLayerMask,
+            new GUIContent(
+                "Layer Mask",
+                ""));
         EditorGUILayout.PropertyField(cameraOffset);
         EditorGUILayout.PropertyField(lookAtPointOffset);
         EditorGUILayout.PropertyField(followSpeed);
-        EditorGUILayout.PropertyField(cameraRotationSpeed);
+        EditorGUILayout.PropertyField(
+            cameraRotationSpeed,
+            new GUIContent(
+                "Cam. Rot. Speed",
+                ""));
         EditorGUILayout.PropertyField(perspectiveChangeSpeed);
         EditorGUILayout.PropertyField(movementVelocityOffset);
         EditorGUILayout.PropertyField(cameraLimits);
