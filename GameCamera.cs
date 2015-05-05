@@ -100,10 +100,13 @@ public class GameCamera : MonoBehaviour {
         // target speed check
         targetVelocity = (targetTransform.position - lastTargetPos) / Time.fixedDeltaTime;
         targetVelocity = Vector3.Scale(targetVelocity, movementVelocityOffset);
-        // camera movement speed
+
+        // Camera movement speed.
+        // Increase camera speed along with target speed.
         var avgVelocity = (Mathf.Abs(targetVelocity.x)
-                           + Mathf.Abs(targetVelocity.x)
-                           + Mathf.Abs(targetVelocity.x)) / 3;
+                           + Mathf.Abs(targetVelocity.y)
+                           + Mathf.Abs(targetVelocity.z)) / 3;
+
         var lerpSpeed = (avgVelocity + followSpeed) * Time.fixedDeltaTime;
 
         // save camera rotation
