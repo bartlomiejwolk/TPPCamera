@@ -56,9 +56,14 @@ namespace TPPCamera.CameraSetupComponent {
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(cameraCo);
+            EditorGUILayout.PropertyField(cameraCo,
+                new GUIContent(
+                    "TPPCam Comp.",
+                    ""));
 
             EditorGUILayout.Space();
+
+            GUILayout.Label("TPPCam Properties", EditorStyles.boldLabel);
 
             DrawTargetTransformField();
             DrawFollowSpeedField();
@@ -66,19 +71,10 @@ namespace TPPCamera.CameraSetupComponent {
             DrawPerspectiveChangeSpeedField();
             DrawModeDropdown();
             DrawOcclusionLayerMaskDropdown();
-
-            GUILayout.Label("Camera Offset", EditorStyles.boldLabel);
-
             DrawCameraOffsetField();
             DrawOffsetWhenNotVisibleField();
-
-            GUILayout.Label("Look At Point Offset", EditorStyles.boldLabel);
-
             DrawLookAtPointOffsetField();
             DrawLookAtPointWhenNotVisibleField();
-
-            GUILayout.Label("Other", EditorStyles.boldLabel);
-
             DrawCameraLimitsField();
             DrawMovementVelocityOffsetField();
 
