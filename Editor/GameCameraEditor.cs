@@ -78,7 +78,6 @@ class GameCameraEditor : Editor {
     #region INSPECTOR
 
     private void DrawMovementVelocityOffsetField() {
-
         EditorGUILayout.PropertyField(
             movementVelocityOffset,
             new GUIContent(
@@ -89,7 +88,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawCameraLimitsField() {
-
         EditorGUILayout.PropertyField(
             cameraLimits,
             new GUIContent(
@@ -98,7 +96,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawLookAtPointWhenNotVisibleField() {
-
         EditorGUILayout.PropertyField(
             lookAtPointWhenNotVisible,
             new GUIContent(
@@ -107,7 +104,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawOffsetWhenNotVisibleField() {
-
         EditorGUILayout.PropertyField(
             offsetWhenNotVisible,
             new GUIContent(
@@ -117,7 +113,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawPerspectiveChangeSpeedField() {
-
         EditorGUILayout.PropertyField(
             perspectiveChangeSpeed,
             new GUIContent(
@@ -128,16 +123,14 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawLookAtPointOffsetField() {
-
         EditorGUILayout.PropertyField(
             lookAtPointOffset,
             new GUIContent(
                 "Look At Point Offset",
-                "Use to offset target pivot point."));
+                ""));
     }
 
     private void DrawCameraOffsetField() {
-
         EditorGUILayout.PropertyField(
             cameraOffset,
             new GUIContent(
@@ -146,7 +139,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawOcclusionLayerMaskDropdown() {
-
         EditorGUILayout.PropertyField(
             cameraOcclusionLayerMask,
             new GUIContent(
@@ -156,7 +148,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawModeDropdown() {
-
         EditorGUILayout.PropertyField(
             mode,
             new GUIContent(
@@ -167,7 +158,6 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawCameraRotationSpeedField() {
-
         EditorGUILayout.PropertyField(
             cameraRotationSpeed,
             new GUIContent(
@@ -176,12 +166,10 @@ class GameCameraEditor : Editor {
     }
 
     private void DrawFollowSpeedField() {
-
         EditorGUILayout.PropertyField(followSpeed);
     }
 
     private void DrawTargetTransformField() {
-
         EditorGUILayout.PropertyField(
             targetTransform,
             new GUIContent(

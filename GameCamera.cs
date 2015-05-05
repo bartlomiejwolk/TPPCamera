@@ -157,9 +157,9 @@ public class GameCamera : MonoBehaviour {
             Time.fixedDeltaTime * perspectiveChangeSpeed);
         tRot.SetLookRotation(
             (cameraTarget
-             + (occlusionLookAtPointOffset + (transform.position - cameraTarget)))
-            -
-            transform.position,
+            + (occlusionLookAtPointOffset
+            + (transform.position - cameraTarget)))
+            - transform.position,
             targetTransform.up);
 
         // apply transformations
