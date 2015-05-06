@@ -8,9 +8,13 @@ namespace TPPCamera.TPPCamComponent {
     public sealed class TPPCam : MonoBehaviour {
 
         #region FIELDS
+        /// <summary>
+        /// Final rotation that the camera will be lerping to.
+        /// </summary>
+        private Quaternion endRotation;
 
         // movement
-        private Vector3 smoothCamOffset;
+        private Vector3 lerpedCameraOffset;
 
         // camera follow target
         private Vector3 targetTransPos;
@@ -19,7 +23,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private Vector3 updatedLookAtPointOffset;
 
-        private Vector3 resultCameraOffset;
+        private Vector3 endCameraOffset;
 
         private bool targetTransformVisible;
 
@@ -56,14 +60,11 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 offsetWhenNotVisible;
 
         [SerializeField]
-        private float perspectiveChangeSpeed = 10f;
+        private float cameraOffsetLerpSpeed = 10f;
 
         // main variables
         [SerializeField]
         private Transform targetTransform;
-
-        private Quaternion endRotation;
-
         #endregion
 
         #region PROPERTIES
@@ -112,9 +113,9 @@ namespace TPPCamera.TPPCamComponent {
             set { offsetWhenNotVisible = value; }
         }
 
-        public float PerspectiveChangeSpeed {
-            get { return perspectiveChangeSpeed; }
-            set { perspectiveChangeSpeed = value; }
+        public float CameraOffsetLerpSpeed {
+            get { return cameraOffsetLerpSpeed; }
+            set { cameraOffsetLerpSpeed = value; }
         }
 
         public Transform TargetTransform {
@@ -130,9 +131,9 @@ namespace TPPCamera.TPPCamComponent {
         /// <summary>
         /// Camera offset while following the target transform.
         /// </summary>
-        private Vector3 SmoothCamOffset {
-            get { return smoothCamOffset; }
-            set { smoothCamOffset = value; }
+        private Vector3 LerpedCameraOffset {
+            get { return lerpedCameraOffset; }
+            set { lerpedCameraOffset = value; }
         }
 
         private float LerpSpeed {
@@ -145,9 +146,14 @@ namespace TPPCamera.TPPCamComponent {
             set { updatedLookAtPointOffset = value; }
         }
 
-        private Vector3 ResultCameraOffset {
-            get { return resultCameraOffset; }
-            set { resultCameraOffset = value; }
+        /// <summary>
+        /// Depending on whether the target transform is occluded or not, 
+        /// this will be one of the two camera offsets specified in the
+        /// inspector.
+        /// </summary>
+        private Vector3 EndCameraOffset {
+            get { return endCameraOffset; }
+            set { endCameraOffset = value; }
         }
 
         private bool TargetTransformVisible {
@@ -165,7 +171,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private void Start() {
             TargetTransPos = TargetTransform.position;
-            SmoothCamOffset = CameraOffset;
+            LerpedCameraOffset = CameraOffset;
         }
 
         #endregion UNITY MESSAGES
@@ -227,14 +233,11 @@ namespace TPPCamera.TPPCamComponent {
             // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
-                TargetTransPos + SmoothCamOffset,
+                TargetTransPos + LerpedCameraOffset,
                 LerpSpeed);
         }
 
         private void CalculateEndRotation() {
-            // save camera rotation
-            endRotation = Quaternion.identity;
-
             var dir1 = transform.position - TargetTransPos;
             var dir2 = (TargetTransPos + UpdatedLookAtPointOffset + dir1)
                 - transform.position;
@@ -245,32 +248,32 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void UpdateSmoothCamOffset() {
-            SmoothCamOffset = Vector3.MoveTowards(
-                SmoothCamOffset,
-                ResultCameraOffset,
-                PerspectiveChangeSpeed * Time.fixedDeltaTime);
+            LerpedCameraOffset = Vector3.MoveTowards(
+                LerpedCameraOffset,
+                EndCameraOffset,
+                CameraOffsetLerpSpeed * Time.fixedDeltaTime);
         }
 
         private void HandleTargetTransformVisible() {
             if (!TargetTransformVisible) return;
 
-            ResultCameraOffset = CameraOffset;
+            EndCameraOffset = CameraOffset;
 
             UpdatedLookAtPointOffset =
             new Vector3(
                 LookAtPointOffset.x,
-                -SmoothCamOffset.y,
+                -LerpedCameraOffset.y,
                 LookAtPointOffset.y);               
         }
 
         private void HandleTargetTransformNotVisible() {
             if (TargetTransformVisible) return;
 
-            ResultCameraOffset = OffsetWhenNotVisible;
+            EndCameraOffset = OffsetWhenNotVisible;
 
             UpdatedLookAtPointOffset = new Vector3(
                 LookAtPointWhenNotVisible.x,
-                -SmoothCamOffset.y,
+                -LerpedCameraOffset.y,
                 LookAtPointWhenNotVisible.y);
         }
 
