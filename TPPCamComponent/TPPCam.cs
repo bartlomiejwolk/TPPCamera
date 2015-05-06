@@ -18,9 +18,9 @@ namespace TPPCamera.TPPCamComponent {
 
         private float lerpSpeed;
 
-        private Vector3 occlusionLookAtPointOffset;
+        private Vector3 updatedLookAtPointOffset;
 
-        private Vector3 occlusionOffset;
+        private Vector3 updatedCameraOffset;
 
         private bool targetTransformVisible;
 
@@ -159,14 +159,14 @@ namespace TPPCamera.TPPCamComponent {
             set { lerpSpeed = value; }
         }
 
-        private Vector3 OcclusionLookAtPointOffset {
-            get { return occlusionLookAtPointOffset; }
-            set { occlusionLookAtPointOffset = value; }
+        private Vector3 UpdatedLookAtPointOffset {
+            get { return updatedLookAtPointOffset; }
+            set { updatedLookAtPointOffset = value; }
         }
 
-        private Vector3 OcclusionOffset {
-            get { return occlusionOffset; }
-            set { occlusionOffset = value; }
+        private Vector3 UpdatedCameraOffset {
+            get { return updatedCameraOffset; }
+            set { updatedCameraOffset = value; }
         }
 
         private bool TargetTransformVisible {
@@ -225,7 +225,7 @@ namespace TPPCamera.TPPCamComponent {
             CalculateLerpSpeed();
             UpdateTargetTransformPosition();
             CheckTargetTransformOcclusion();
-            UpdateOcclusionLookAtPointOffset();
+            UpdateLookAtPointOffset();
             UpdateSmoothCamOffset();
             CalculateEndRotation();
 
@@ -253,7 +253,7 @@ namespace TPPCamera.TPPCamComponent {
             endRotation = Quaternion.identity;
             endRotation.SetLookRotation(
                 (TargetTransformPosition
-                 + (OcclusionLookAtPointOffset
+                 + (UpdatedLookAtPointOffset
                     + (transform.position - TargetTransformPosition)))
                 - transform.position,
                 TargetTransform.up);
@@ -263,29 +263,29 @@ namespace TPPCamera.TPPCamComponent {
             // control occlusion offsets
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
-                OcclusionOffset,
+                UpdatedCameraOffset,
                 Time.fixedDeltaTime * PerspectiveChangeSpeed);
         }
 
         // todo replace with two separate handlers
-        private void UpdateOcclusionLookAtPointOffset() {
+        private void UpdateLookAtPointOffset() {
             if (TargetTransformVisible) {
-                OcclusionOffset = CameraOffset;
-                OcclusionLookAtPointOffset =
+                UpdatedCameraOffset = CameraOffset;
+                UpdatedLookAtPointOffset =
                 new Vector3(
                     LookAtPointOffset.x,
                     -SmoothCamOffset.y,
                     LookAtPointOffset.y);               
             }
             else {
-                OcclusionOffset = OffsetWhenNotVisible;
-                OcclusionLookAtPointOffset = new Vector3(
+                UpdatedCameraOffset = OffsetWhenNotVisible;
+                UpdatedLookAtPointOffset = new Vector3(
                     LookAtPointWhenNotVisible.x,
                     -SmoothCamOffset.y,
                     LookAtPointWhenNotVisible.z);
             }
 
-            OcclusionOffset += TargetVelocity;
+            UpdatedCameraOffset += TargetVelocity;
         }
 
         private void CalculateLerpSpeed() {
