@@ -14,7 +14,7 @@ namespace TPPCamera.TPPCamComponent {
         // movement
         private Vector3 smoothCamOffset;
 
-        private Vector3 targetVelocity;
+        //private Vector3 targetVelocity;
 
         // camera follow target
         private Vector3 targetTransPos;
@@ -139,10 +139,10 @@ namespace TPPCamera.TPPCamComponent {
             set { targetTransPos = value; }
         }
 
-        private Vector3 TargetVelocity {
-            get { return targetVelocity; }
-            set { targetVelocity = value; }
-        }
+        //private Vector3 TargetVelocity {
+        //    get { return targetVelocity; }
+        //    set { targetVelocity = value; }
+        //}
 
         /// <summary>
         /// Helper variable.
@@ -184,6 +184,7 @@ namespace TPPCamera.TPPCamComponent {
         #region UNITY MESSAGES
 
         private void FixedUpdate() {
+            // todo this should rather be done in LateUpdate()
             FollowTarget();
         }
 
@@ -211,7 +212,8 @@ namespace TPPCamera.TPPCamComponent {
             // check if player visible
             RaycastHit hit;
             if (Physics.Raycast(
-                cameraOffsetPos + TargetVelocity,
+                //cameraOffsetPos + TargetVelocity,
+                cameraOffsetPos,
                 tDir,
                 out hit,
                 tDist,
@@ -269,11 +271,11 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void UpdateSmoothCamOffset() {
-            UpdatedCameraOffset += TargetVelocity;
+            //UpdatedCameraOffset += TargetVelocity;
 
-            Logger.LogString("UpdatedCameraOffset: {0}; TargetVelocity: {1}",
-                UpdatedCameraOffset,
-                TargetVelocity);
+            //Logger.LogString("UpdatedCameraOffset: {0}; TargetVelocity: {1}",
+            //    UpdatedCameraOffset,
+            //    TargetVelocity);
 
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
@@ -306,20 +308,20 @@ namespace TPPCamera.TPPCamComponent {
 
         private void CalculateLerpSpeed() {
             // Increase camera speed along with target speed.
-            var averageVelocity = (Mathf.Abs(TargetVelocity.x)
-                               + Mathf.Abs(TargetVelocity.y)
-                               + Mathf.Abs(TargetVelocity.z)) / 3;
+            //var averageVelocity = (Mathf.Abs(TargetVelocity.x)
+            //                   + Mathf.Abs(TargetVelocity.y)
+            //                   + Mathf.Abs(TargetVelocity.z)) / 3;
 
-            LerpSpeed = (averageVelocity + FollowSpeed)
-                        * Time.fixedDeltaTime;
+            //LerpSpeed = (averageVelocity + FollowSpeed)
+            LerpSpeed = FollowSpeed * Time.fixedDeltaTime;
         }
 
         private void CalculateTargetVelocity() {
             // target speed check
-            TargetVelocity = (TargetTransform.position - LastTargetPos)
-                             / Time.fixedDeltaTime;
+            //TargetVelocity = (TargetTransform.position - LastTargetPos)
+            //                 / Time.fixedDeltaTime;
 
-            Logger.LogString("TargetVelocity: {0}", TargetVelocity);
+            //Logger.LogString("TargetVelocity: {0}", TargetVelocity);
 
             //TargetVelocity = Vector3.Scale(
             //    TargetVelocity,
@@ -365,9 +367,9 @@ namespace TPPCamera.TPPCamComponent {
                 TargetTransPos += dir * magnitude * Time.fixedDeltaTime
                     * FollowSpeed;
             }
-            else {
-                TargetVelocity = Vector3.zero;
-            }
+            //else {
+            //    TargetVelocity = Vector3.zero;
+            //}
         }
 
         #endregion METHODS
