@@ -225,7 +225,8 @@ namespace TPPCamera.TPPCamComponent {
             CalculateLerpSpeed();
             UpdateTargetTransformPosition();
             CheckTargetTransformOcclusion();
-            UpdateLookAtPointOffset();
+            HandleTargetTransformVisible();
+            HandleTargetTransformNotVisible();
             UpdateSmoothCamOffset();
             CalculateEndRotation();
 
@@ -260,6 +261,8 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void UpdateSmoothCamOffset() {
+            UpdatedCameraOffset += TargetVelocity;
+
             // control occlusion offsets
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
@@ -267,25 +270,27 @@ namespace TPPCamera.TPPCamComponent {
                 Time.fixedDeltaTime * PerspectiveChangeSpeed);
         }
 
-        // todo replace with two separate handlers
-        private void UpdateLookAtPointOffset() {
-            if (TargetTransformVisible) {
-                UpdatedCameraOffset = CameraOffset;
-                UpdatedLookAtPointOffset =
-                new Vector3(
-                    LookAtPointOffset.x,
-                    -SmoothCamOffset.y,
-                    LookAtPointOffset.y);               
-            }
-            else {
-                UpdatedCameraOffset = OffsetWhenNotVisible;
-                UpdatedLookAtPointOffset = new Vector3(
-                    LookAtPointWhenNotVisible.x,
-                    -SmoothCamOffset.y,
-                    LookAtPointWhenNotVisible.z);
-            }
+        private void HandleTargetTransformVisible() {
+            if (!TargetTransformVisible) return;
 
-            UpdatedCameraOffset += TargetVelocity;
+            UpdatedCameraOffset = CameraOffset;
+
+            UpdatedLookAtPointOffset =
+            new Vector3(
+                LookAtPointOffset.x,
+                -SmoothCamOffset.y,
+                LookAtPointOffset.y);               
+        }
+
+        private void HandleTargetTransformNotVisible() {
+            if (TargetTransformVisible) return;
+
+            UpdatedCameraOffset = OffsetWhenNotVisible;
+
+            UpdatedLookAtPointOffset = new Vector3(
+                LookAtPointWhenNotVisible.x,
+                -SmoothCamOffset.y,
+                LookAtPointWhenNotVisible.z);
         }
 
         private void CalculateLerpSpeed() {
