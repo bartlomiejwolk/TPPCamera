@@ -21,7 +21,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private float lerpPositionSpeed;
 
-        private Vector3 updatedLookAtPointOffset;
+        private Vector3 endLookAtPointOffset;
 
         private Vector3 endCameraOffset;
 
@@ -148,9 +148,14 @@ namespace TPPCamera.TPPCamComponent {
             set { lerpPositionSpeed = value; }
         }
 
-        private Vector3 UpdatedLookAtPointOffset {
-            get { return updatedLookAtPointOffset; }
-            set { updatedLookAtPointOffset = value; }
+        /// <summary>
+        /// Depending on whether the target transform is occluded or not, 
+        /// this will be one of the two look at point offsets specified in the
+        /// inspector.
+        /// </summary>
+        private Vector3 EndLookAtPointOffset {
+            get { return endLookAtPointOffset; }
+            set { endLookAtPointOffset = value; }
         }
 
         /// <summary>
@@ -246,7 +251,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private void CalculateEndRotation() {
             var dir1 = transform.position - TargetTransformPos;
-            var dir2 = (TargetTransformPos + UpdatedLookAtPointOffset + dir1)
+            var dir2 = (TargetTransformPos + EndLookAtPointOffset + dir1)
                 - transform.position;
 
             endRotation.SetLookRotation(
@@ -266,11 +271,11 @@ namespace TPPCamera.TPPCamComponent {
 
             EndCameraOffset = CameraOffset;
 
-            UpdatedLookAtPointOffset =
-            new Vector3(
-                LookAtPointOffset.x,
-                -LerpedCameraOffset.y,
-                LookAtPointOffset.y);               
+            EndLookAtPointOffset =
+                new Vector3(
+                    LookAtPointOffset.x,
+                    -LerpedCameraOffset.y,
+                    LookAtPointOffset.y);               
         }
 
         private void HandleTargetTransformNotVisible() {
@@ -278,7 +283,7 @@ namespace TPPCamera.TPPCamComponent {
 
             EndCameraOffset = OffsetWhenNotVisible;
 
-            UpdatedLookAtPointOffset = new Vector3(
+            EndLookAtPointOffset = new Vector3(
                 LookAtPointWhenNotVisible.x,
                 -LerpedCameraOffset.y,
                 LookAtPointWhenNotVisible.y);
