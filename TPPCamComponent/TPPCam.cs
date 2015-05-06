@@ -124,6 +124,21 @@ namespace TPPCamera.TPPCamComponent {
             set { cameraTarget = value; }
         }
 
+        private Vector3 TargetVelocity {
+            get { return targetVelocity; }
+            set { targetVelocity = value; }
+        }
+
+        private Vector3 LastTargetPos {
+            get { return lastTargetPos; }
+            set { lastTargetPos = value; }
+        }
+
+        private Vector3 SmoothCamOffset {
+            get { return smoothCamOffset; }
+            set { smoothCamOffset = value; }
+        }
+
         #endregion
         #region UNITY MESSAGES
 
@@ -132,7 +147,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void Start() {
-            smoothCamOffset = CameraOffset;
+            SmoothCamOffset = CameraOffset;
             CameraTarget = TargetTransform.position;
         }
 
@@ -153,7 +168,7 @@ namespace TPPCamera.TPPCamComponent {
             // check if player visible
             RaycastHit hit;
             if (Physics.Raycast(
-                cameraOffsetPos + targetVelocity,
+                cameraOffsetPos + TargetVelocity,
                 tDir,
                 out hit,
                 tDist,
@@ -167,17 +182,18 @@ namespace TPPCamera.TPPCamComponent {
             if (TargetTransform == null) return;
 
             // target speed check
-            targetVelocity = (TargetTransform.position - lastTargetPos)
+            TargetVelocity = (TargetTransform.position - LastTargetPos)
                              / Time.fixedDeltaTime;
-            targetVelocity = Vector3.Scale(
-                targetVelocity,
+
+            TargetVelocity = Vector3.Scale(
+                TargetVelocity,
                 MovementVelocityOffset);
 
             // Camera movement speed.
             // Increase camera speed along with target speed.
-            var avgVelocity = (Mathf.Abs(targetVelocity.x)
-                               + Mathf.Abs(targetVelocity.y)
-                               + Mathf.Abs(targetVelocity.z)) / 3;
+            var avgVelocity = (Mathf.Abs(TargetVelocity.x)
+                               + Mathf.Abs(TargetVelocity.y)
+                               + Mathf.Abs(TargetVelocity.z)) / 3;
 
             var lerpSpeed = (avgVelocity + FollowSpeed)
                 * Time.fixedDeltaTime;
@@ -193,20 +209,20 @@ namespace TPPCamera.TPPCamComponent {
             var occlusionLookAtPointOffset =
                 new Vector3(
                     LookAtPointOffset.x,
-                    -smoothCamOffset.y,
+                    -SmoothCamOffset.y,
                     LookAtPointOffset.y);
             if (!playerVisible) {
                 occlusionOffset = OffsetWhenNotVisible;
                 occlusionLookAtPointOffset = new Vector3(
                     LookAtPointWhenNotVisible.x,
-                    -smoothCamOffset.y,
+                    -SmoothCamOffset.y,
                     LookAtPointWhenNotVisible.z);
             }
-            occlusionOffset += targetVelocity;
+            occlusionOffset += TargetVelocity;
 
             // control occlusion offsets
-            smoothCamOffset = Vector3.MoveTowards(
-                smoothCamOffset,
+            SmoothCamOffset = Vector3.MoveTowards(
+                SmoothCamOffset,
                 occlusionOffset,
                 Time.fixedDeltaTime * PerspectiveChangeSpeed);
             tRot.SetLookRotation(
@@ -219,7 +235,7 @@ namespace TPPCamera.TPPCamComponent {
             // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
-                CameraTarget + smoothCamOffset,
+                CameraTarget + SmoothCamOffset,
                 lerpSpeed);
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
@@ -227,7 +243,7 @@ namespace TPPCamera.TPPCamComponent {
                 CameraRotationSpeed * Time.fixedDeltaTime);
 
             // save last target position
-            lastTargetPos = TargetTransform.position;
+            LastTargetPos = TargetTransform.position;
         }
 
         private void HandleMode() {
@@ -245,7 +261,7 @@ namespace TPPCamera.TPPCamComponent {
                         * Time.fixedDeltaTime * FollowSpeed;
                 }
                 else {
-                    targetVelocity = Vector3.zero;
+                    TargetVelocity = Vector3.zero;
                 }
                 CameraTarget = new Vector3(
                     CameraTarget.x,
