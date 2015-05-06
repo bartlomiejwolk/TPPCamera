@@ -1,13 +1,14 @@
 ﻿using TPPCamera.TPPCamComponent;
 using UnityEditor;
 using UnityEngine;
+using Vexe.Runtime.Extensions;
 
 namespace TPPCamera.TPPCamSetterComponent {
 
     [CustomEditor(typeof(TPPCamSetter))]
     class TPPCamSetterEditor : Editor {
 
-        private TPPCam Script { get; set; }
+        private TPPCamSetter Script { get; set; }
 
         #region SERIALIZED PROPERTIES
 
@@ -19,6 +20,8 @@ namespace TPPCamera.TPPCamSetterComponent {
         #region UNITY MESSAGES
 
         private void OnEnable() {
+            Script = (TPPCamSetter) target;
+
             cameraCo = serializedObject.FindProperty("cameraCo");
 
             // TPPCam properties.
@@ -35,15 +38,23 @@ namespace TPPCamera.TPPCamSetterComponent {
                     "TPPCam Comp.",
                     ""));
 
+            DrawPropertiesDropdown();
+
             EditorGUILayout.Space();
 
             GUILayout.Label("TPPCam Properties", EditorStyles.boldLabel);
 
-            DrawCameraOffsetField();
-            DrawLookAtPointOffsetField();
-
             serializedObject.ApplyModifiedProperties();
         }
+
+        private void DrawPropertiesDropdown() {
+            Script.Properties = (Properties) EditorGUILayout.EnumMaskField(
+                new GUIContent(
+                    "Properties",
+                    ""),
+                Script.Properties);
+        }
+
         #endregion
 
         #region INSPECTOR

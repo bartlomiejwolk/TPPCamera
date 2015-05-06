@@ -57,7 +57,6 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 smoothCamOffset;
 
         private Vector3 targetVelocity;
-
         #endregion FIELDS
 
         #region UNITY MESSAGES
