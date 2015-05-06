@@ -221,21 +221,7 @@ namespace TPPCamera.TPPCamComponent {
 
             HandleSelectedMode();
             DetectOccluders();
-
-            OcclusionOffset = CameraOffset;
-            OcclusionLookAtPointOffset =
-                new Vector3(
-                    LookAtPointOffset.x,
-                    -SmoothCamOffset.y,
-                    LookAtPointOffset.y);
-            if (!PlayerVisible) {
-                OcclusionOffset = OffsetWhenNotVisible;
-                OcclusionLookAtPointOffset = new Vector3(
-                    LookAtPointWhenNotVisible.x,
-                    -SmoothCamOffset.y,
-                    LookAtPointWhenNotVisible.z);
-            }
-            OcclusionOffset += TargetVelocity;
+            UpdateOcclusionLookAtPointOffset();
 
             // control occlusion offsets
             SmoothCamOffset = Vector3.MoveTowards(
@@ -261,6 +247,26 @@ namespace TPPCamera.TPPCamComponent {
 
             // save last target position
             LastTargetPos = TargetTransform.position;
+        }
+
+        private void UpdateOcclusionLookAtPointOffset() {
+            if (PlayerVisible) {
+                OcclusionOffset = CameraOffset;
+                OcclusionLookAtPointOffset =
+                new Vector3(
+                    LookAtPointOffset.x,
+                    -SmoothCamOffset.y,
+                    LookAtPointOffset.y);               
+            }
+            else {
+                OcclusionOffset = OffsetWhenNotVisible;
+                OcclusionLookAtPointOffset = new Vector3(
+                    LookAtPointWhenNotVisible.x,
+                    -SmoothCamOffset.y,
+                    LookAtPointWhenNotVisible.z);
+            }
+
+            OcclusionOffset += TargetVelocity;
         }
 
         private void CalculateLerpSpeed() {
