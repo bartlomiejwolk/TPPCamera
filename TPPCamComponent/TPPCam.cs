@@ -188,6 +188,7 @@ namespace TPPCamera.TPPCamComponent {
         #region METHODS
 
         // detect if player is visible and set offset accordingly
+        // todo refactor
         private void DetectOccluders() {
             // get distance and direction for raycast
             var cameraOffsetPos = TargetTransform.position + CameraOffset;
@@ -218,7 +219,7 @@ namespace TPPCamera.TPPCamComponent {
 
             CalculateTargetVelocity();
             CalculateLerpSpeed();
-            HandleSelectedMode();
+            UpdateCameraTarget();
             DetectOccluders();
             UpdateOcclusionLookAtPointOffset();
             UpdateSmoothCamOffset();
@@ -307,9 +308,11 @@ namespace TPPCamera.TPPCamComponent {
             LastTargetPos = TargetTransform.position;
         }
 
-        private void HandleSelectedMode() {
+        // todo refactor
+        private void UpdateCameraTarget() {
             // control camera in Limited mode
             if (Mode == Mode.Limited) {
+                // todo extract
                 if (Mathf.Abs(TargetTransform.position.x - CameraTarget.x)
                     > CameraLimits.x
                     ||
@@ -324,6 +327,7 @@ namespace TPPCamera.TPPCamComponent {
                 else {
                     TargetVelocity = Vector3.zero;
                 }
+
                 CameraTarget = new Vector3(
                     CameraTarget.x,
                     TargetTransform.position.y,
