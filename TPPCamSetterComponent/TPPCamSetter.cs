@@ -54,13 +54,30 @@ namespace TPPCamera.TPPCamSetterComponent {
         #region METHODS
 
         public void UpdateTPPCam() {
+            HandleUpdateCameraOffset();
+        }
+
+        private void HandleUpdateCameraOffset() {
+            var enabled = FlagsHelper.IsSet(
+                Properties,
+                Properties.CameraOffset);
+
+            if (!enabled) return;
+
+            CameraCo.CameraOffset = TppCamProperties.CameraOffset;
+        }
+
+        private void HandleUpdateLookAtPointOffset() {
             var enabled = FlagsHelper.IsSet(
                 Properties,
                 Properties.LookAtPointOffset);
 
-            if (enabled) {
-            }
+            if (!enabled) return;
+
+            CameraCo.LookAtPointOffset = TppCamProperties.LookAtPointOffset;
         }
+
+
         #endregion
     }
 
