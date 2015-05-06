@@ -13,8 +13,8 @@ namespace TPPCamera.TPPCamSetterComponent {
         #region SERIALIZED PROPERTIES
 
         private SerializedProperty cameraCo;
-        private SerializedProperty cameraOffset;
-        private SerializedProperty lookAtPointOffset;
+        //private SerializedProperty cameraOffset;
+        //private SerializedProperty lookAtPointOffset;
 
         #endregion
         #region UNITY MESSAGES
@@ -25,9 +25,9 @@ namespace TPPCamera.TPPCamSetterComponent {
             cameraCo = serializedObject.FindProperty("cameraCo");
 
             // TPPCam properties.
-            cameraOffset = serializedObject.FindProperty("cameraOffset");
-            lookAtPointOffset =
-                serializedObject.FindProperty("lookAtPointOffset");
+            //cameraOffset = serializedObject.FindProperty("cameraOffset");
+            //lookAtPointOffset =
+            //    serializedObject.FindProperty("lookAtPointOffset");
         }
 
         public override void OnInspectorGUI() {
@@ -68,11 +68,12 @@ namespace TPPCamera.TPPCamSetterComponent {
 
             if (!enabled) return;
 
-            EditorGUILayout.PropertyField(
-                lookAtPointOffset,
-                new GUIContent(
-                    "Look At Point Offset",
-                    ""));
+            Script.TppCamProperties.LookAtPointOffset =
+                EditorGUILayout.Vector2Field(
+                    new GUIContent(
+                        "Look At Point Offset",
+                        ""),
+                    Script.TppCamProperties.LookAtPointOffset);
         }
 
         private void HandleDrawCameraOffsetField() {
@@ -82,11 +83,12 @@ namespace TPPCamera.TPPCamSetterComponent {
 
             if (!enabled) return;
 
-            EditorGUILayout.PropertyField(
-                cameraOffset,
-                new GUIContent(
-                    "Camera Offset",
-                    "Default camera position relative to the target."));
+            Script.TppCamProperties.CameraOffset =
+                EditorGUILayout.Vector3Field(
+                    new GUIContent(
+                        "Camera Offset",
+                        "Default camera position relative to the target."),
+                    Script.TppCamProperties.CameraOffset);
         }
 
         #endregion INSPECTOR

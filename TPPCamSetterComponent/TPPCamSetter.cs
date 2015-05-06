@@ -19,21 +19,32 @@ namespace TPPCamera.TPPCamSetterComponent {
         private TPPCam cameraCo;
 
         [SerializeField]
+        private TPPCamProperties tppCamProperties;
+
+        [SerializeField]
         private Properties properties;
 
         #endregion FIELDS
 
         #region TPPCam FIELDS
-        [SerializeField]
-        private Vector3 cameraOffset;
 
-        [SerializeField]
-        private Vector2 lookAtPointOffset;
         #endregion
 
+        /// <summary>
+        /// Keeps info about what properties of the target camera component
+        /// should be updated.
+        /// </summary>
         public Properties Properties {
             get { return properties; }
             set { properties = value; }
+        }
+
+        /// <summary>
+        /// Properties used to update the target camera component.
+        /// </summary>
+        public TPPCamProperties TppCamProperties {
+            get { return tppCamProperties; }
+            set { tppCamProperties = value; }
         }
 
     }
