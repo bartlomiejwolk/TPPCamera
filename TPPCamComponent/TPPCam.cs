@@ -11,17 +11,14 @@ namespace TPPCamera.TPPCamComponent {
         /// <summary>
         /// Final rotation that the camera will be lerping to.
         /// </summary>
+        // todo why it can't be a property?
         private Quaternion endRotation;
-
-        // movement
-
-        // camera follow target
 
         #endregion FIELDS
 
         #region INSPECTOR FIELDS
-        // limited camera
         [SerializeField]
+        // todo rename to deadZone
         private Vector2 cameraLimits = new Vector2(5f, 5f);
 
         [SerializeField]
