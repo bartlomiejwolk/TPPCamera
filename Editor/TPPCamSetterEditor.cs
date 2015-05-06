@@ -62,6 +62,12 @@ namespace TPPCamera.TPPCamSetterComponent {
 
 
         private void HandleDrawLookAtPointOffsetField() {
+            var enabled = FlagsHelper.IsSet(
+                Script.Properties,
+                Properties.LookAtPointOffset);
+
+            if (!enabled) return;
+
             EditorGUILayout.PropertyField(
                 lookAtPointOffset,
                 new GUIContent(
@@ -70,6 +76,12 @@ namespace TPPCamera.TPPCamSetterComponent {
         }
 
         private void HandleDrawCameraOffsetField() {
+            var enabled = FlagsHelper.IsSet(
+                Script.Properties,
+                Properties.CameraOffset);
+
+            if (!enabled) return;
+
             EditorGUILayout.PropertyField(
                 cameraOffset,
                 new GUIContent(
