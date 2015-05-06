@@ -141,6 +141,9 @@ namespace TPPCamera.TPPCamComponent {
             set { targetVelocity = value; }
         }
 
+        /// <summary>
+        /// Helper variable.
+        /// </summary>
         private Vector3 LastTargetPos {
             get { return lastTargetPos; }
             set { lastTargetPos = value; }
@@ -238,7 +241,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void ApplyEndPosition() {
-        // apply transformations
+            // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
                 TargetTransformPosition + SmoothCamOffset,
@@ -288,11 +291,11 @@ namespace TPPCamera.TPPCamComponent {
         private void CalculateLerpSpeed() {
             // Camera movement speed.
             // Increase camera speed along with target speed.
-            var avgVelocity = (Mathf.Abs(TargetVelocity.x)
+            var averageVelocity = (Mathf.Abs(TargetVelocity.x)
                                + Mathf.Abs(TargetVelocity.y)
                                + Mathf.Abs(TargetVelocity.z)) / 3;
 
-            LerpSpeed = (avgVelocity + FollowSpeed)
+            LerpSpeed = (averageVelocity + FollowSpeed)
                         * Time.fixedDeltaTime;
         }
 
