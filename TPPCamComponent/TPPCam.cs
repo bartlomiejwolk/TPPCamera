@@ -17,7 +17,7 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 lerpedCameraOffset;
 
         // camera follow target
-        private Vector3 targetTransPos;
+        private Vector3 targetTransformPos;
 
         private float lerpSpeed;
 
@@ -123,9 +123,9 @@ namespace TPPCamera.TPPCamComponent {
             set { targetTransform = value; }
         }
 
-        private Vector3 TargetTransPos {
-            get { return targetTransPos; }
-            set { targetTransPos = value; }
+        private Vector3 TargetTransformPos {
+            get { return targetTransformPos; }
+            set { targetTransformPos = value; }
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void Start() {
-            TargetTransPos = TargetTransform.position;
+            TargetTransformPos = TargetTransform.position;
             LerpedCameraOffset = CameraOffset;
         }
 
@@ -233,13 +233,13 @@ namespace TPPCamera.TPPCamComponent {
             // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
-                TargetTransPos + LerpedCameraOffset,
+                TargetTransformPos + LerpedCameraOffset,
                 LerpSpeed);
         }
 
         private void CalculateEndRotation() {
-            var dir1 = transform.position - TargetTransPos;
-            var dir2 = (TargetTransPos + UpdatedLookAtPointOffset + dir1)
+            var dir1 = transform.position - TargetTransformPos;
+            var dir2 = (TargetTransformPos + UpdatedLookAtPointOffset + dir1)
                 - transform.position;
 
             endRotation.SetLookRotation(
@@ -286,33 +286,33 @@ namespace TPPCamera.TPPCamComponent {
                 case Mode.Limited:
                     HandleCameraLimits();
 
-                    TargetTransPos = new Vector3(
-                        TargetTransPos.x,
+                    TargetTransformPos = new Vector3(
+                        TargetTransformPos.x,
                         TargetTransform.position.y,
-                        TargetTransPos.z);
+                        TargetTransformPos.z);
                     break;
                 case Mode.Instantenous:
-                    TargetTransPos = TargetTransform.position;
+                    TargetTransformPos = TargetTransform.position;
                     break;
             }
         }
 
         private void HandleCameraLimits() {
             var exceedLimitX = Mathf.Abs(
-                    TargetTransform.position.x - TargetTransPos.x)
+                    TargetTransform.position.x - TargetTransformPos.x)
                     > CameraLimits.x;
 
             var exceedLimitZ = Mathf.Abs(
-                    TargetTransform.position.z - TargetTransPos.z)
+                    TargetTransform.position.z - TargetTransformPos.z)
                     > CameraLimits.y;
 
             if (exceedLimitX || exceedLimitZ) {
                 var dir =
-                    (TargetTransform.position - TargetTransPos).normalized;
+                    (TargetTransform.position - TargetTransformPos).normalized;
                 var magnitude =
-                    (TargetTransform.position - TargetTransPos).magnitude;
+                    (TargetTransform.position - TargetTransformPos).magnitude;
 
-                TargetTransPos += dir * magnitude * Time.fixedDeltaTime
+                TargetTransformPos += dir * magnitude * Time.fixedDeltaTime
                     * FollowSpeed;
             }
         }
