@@ -209,6 +209,7 @@ namespace TPPCamera.TPPCamComponent {
                 CameraOcclusionLayerMask)) {
 
                 PlayerVisible = false;
+                return;
             }
 
             PlayerVisible = true;
