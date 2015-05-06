@@ -223,7 +223,7 @@ namespace TPPCamera.TPPCamComponent {
 
             CalculateTargetVelocity();
             CalculateLerpSpeed();
-            UpdateCameraTarget();
+            UpdateTargetTransformPosition();
             DetectOccluders();
             UpdateOcclusionLookAtPointOffset();
             UpdateSmoothCamOffset();
@@ -289,7 +289,6 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void CalculateLerpSpeed() {
-            // Camera movement speed.
             // Increase camera speed along with target speed.
             var averageVelocity = (Mathf.Abs(TargetVelocity.x)
                                + Mathf.Abs(TargetVelocity.y)
@@ -313,7 +312,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         // todo refactor
-        private void UpdateCameraTarget() {
+        private void UpdateTargetTransformPosition() {
             // control camera in Limited mode
             if (Mode == Mode.Limited) {
                 // todo extract
