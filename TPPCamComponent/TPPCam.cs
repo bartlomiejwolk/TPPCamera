@@ -22,7 +22,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private Vector3 occlusionOffset;
 
-        private bool playerVisible;
+        private bool targetTransformVisible;
 
         #endregion FIELDS
 
@@ -169,9 +169,9 @@ namespace TPPCamera.TPPCamComponent {
             set { occlusionOffset = value; }
         }
 
-        private bool PlayerVisible {
-            get { return playerVisible; }
-            set { playerVisible = value; }
+        private bool TargetTransformVisible {
+            get { return targetTransformVisible; }
+            set { targetTransformVisible = value; }
         }
 
         #endregion
@@ -192,7 +192,7 @@ namespace TPPCamera.TPPCamComponent {
 
         // detect if player is visible and set offset accordingly
         // todo refactor
-        private void DetectOccluders() {
+        private void CheckTargetTransformOcclusion() {
             // get distance and direction for raycast
             var cameraOffsetPos = TargetTransform.position + CameraOffset;
             // Ray length decreased by 0.1 to not hit the floor.
@@ -211,11 +211,11 @@ namespace TPPCamera.TPPCamComponent {
                 tDist,
                 CameraOcclusionLayerMask)) {
 
-                PlayerVisible = false;
+                TargetTransformVisible = false;
                 return;
             }
 
-            PlayerVisible = true;
+            TargetTransformVisible = true;
         }
 
         private void FollowTarget() {
@@ -224,7 +224,7 @@ namespace TPPCamera.TPPCamComponent {
             CalculateTargetVelocity();
             CalculateLerpSpeed();
             UpdateTargetTransformPosition();
-            DetectOccluders();
+            CheckTargetTransformOcclusion();
             UpdateOcclusionLookAtPointOffset();
             UpdateSmoothCamOffset();
             CalculateEndRotation();
@@ -269,7 +269,7 @@ namespace TPPCamera.TPPCamComponent {
 
         // todo replace with two separate handlers
         private void UpdateOcclusionLookAtPointOffset() {
-            if (PlayerVisible) {
+            if (TargetTransformVisible) {
                 OcclusionOffset = CameraOffset;
                 OcclusionLookAtPointOffset =
                 new Vector3(
