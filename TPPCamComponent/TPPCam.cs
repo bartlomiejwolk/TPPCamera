@@ -252,11 +252,13 @@ namespace TPPCamera.TPPCamComponent {
         private void CalculateEndRotation() {
             // save camera rotation
             endRotation = Quaternion.identity;
+
+            var dir1 = transform.position - TargetTransPos;
+            var dir2 = (TargetTransPos + UpdatedLookAtPointOffset + dir1)
+                - transform.position;
+
             endRotation.SetLookRotation(
-                (TargetTransPos
-                 + (UpdatedLookAtPointOffset
-                    + (transform.position - TargetTransPos)))
-                - transform.position,
+                dir2,
                 TargetTransform.up);
         }
 
