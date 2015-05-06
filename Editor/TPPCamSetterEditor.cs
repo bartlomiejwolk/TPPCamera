@@ -44,22 +44,24 @@ namespace TPPCamera.TPPCamSetterComponent {
 
             GUILayout.Label("TPPCam Properties", EditorStyles.boldLabel);
 
+            HandleDrawCameraOffsetField();
+            HandleDrawLookAtPointOffsetField();
+
             serializedObject.ApplyModifiedProperties();
         }
+        #endregion
 
+        #region INSPECTOR
         private void DrawPropertiesDropdown() {
-            Script.Properties = (Properties) EditorGUILayout.EnumMaskField(
+            Script.Properties = (Properties)EditorGUILayout.EnumMaskField(
                 new GUIContent(
                     "Properties",
                     ""),
                 Script.Properties);
         }
 
-        #endregion
 
-        #region INSPECTOR
-
-        private void DrawLookAtPointOffsetField() {
+        private void HandleDrawLookAtPointOffsetField() {
             EditorGUILayout.PropertyField(
                 lookAtPointOffset,
                 new GUIContent(
@@ -67,7 +69,7 @@ namespace TPPCamera.TPPCamSetterComponent {
                     ""));
         }
 
-        private void DrawCameraOffsetField() {
+        private void HandleDrawCameraOffsetField() {
             EditorGUILayout.PropertyField(
                 cameraOffset,
                 new GUIContent(
