@@ -135,7 +135,7 @@ namespace TPPCamera.TPPCamComponent {
                 lookAtPointOffset,
                 new GUIContent(
                     "Look At Point Offset",
-                    ""));
+                    "???"));
         }
 
         private void DrawCameraOffsetField() {
@@ -152,8 +152,7 @@ namespace TPPCamera.TPPCamComponent {
                 new GUIContent(
                     "Layer Mask",
                     "If target gets behind an object specified by the layer mask "
-                    +
-                    "it will be considered as occluded."));
+                    + "it will be considered as occluded."));
         }
 
         private void DrawModeDropdown() {

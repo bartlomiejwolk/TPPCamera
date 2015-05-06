@@ -139,9 +139,11 @@ namespace TPPCamera.TPPCamComponent {
             // get distance and direction for raycast
             var cameraOffsetPos = TargetTransform.position + CameraOffset;
             // Ray length decreased by 0.1 to not hit the floor.
-            var tDist = (TargetTransform.position - cameraOffsetPos).magnitude
-                        - 0.1f;
-            var tDir = (TargetTransform.position - cameraOffsetPos).normalized;
+            var tDist =
+                (TargetTransform.position - cameraOffsetPos).magnitude
+                - 0.1f;
+            var tDir =
+                (TargetTransform.position - cameraOffsetPos).normalized;
 
             // check if player visible
             RaycastHit hit;
@@ -172,7 +174,8 @@ namespace TPPCamera.TPPCamComponent {
                                + Mathf.Abs(targetVelocity.y)
                                + Mathf.Abs(targetVelocity.z)) / 3;
 
-            var lerpSpeed = (avgVelocity + FollowSpeed) * Time.fixedDeltaTime;
+            var lerpSpeed = (avgVelocity + FollowSpeed)
+                * Time.fixedDeltaTime;
 
             // save camera rotation
             var tRot = Quaternion.identity;
@@ -184,9 +187,10 @@ namespace TPPCamera.TPPCamComponent {
                     ||
                     Mathf.Abs(TargetTransform.position.z - cameraTarget.z)
                     > CameraLimits.y) {
+
                     cameraTarget +=
-                        (TargetTransform.position - cameraTarget).normalized *
-                        (TargetTransform.position - cameraTarget).magnitude
+                        (TargetTransform.position - cameraTarget).normalized
+                        * (TargetTransform.position - cameraTarget).magnitude
                         * Time.fixedDeltaTime * FollowSpeed;
                 }
                 else {
