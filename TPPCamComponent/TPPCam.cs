@@ -2,9 +2,7 @@ using UnityEngine;
 
 namespace TPPCamera.TPPCamComponent {
 
-    public class TPPCam : MonoBehaviour {
-
-        // modes
+    public sealed class TPPCam : MonoBehaviour {
 
         #region FIELDS
 
@@ -74,7 +72,7 @@ namespace TPPCamera.TPPCamComponent {
 
         #region METHODS
 
-        public bool DetectOccluders() {
+        private bool DetectOccluders() {
             // get distance and direction for raycast
             var cameraOffsetPos = targetTransform.position + cameraOffset;
             // Ray length decreased by 0.1 to not hit the floor.
@@ -95,7 +93,7 @@ namespace TPPCamera.TPPCamComponent {
             return true;
         }
 
-        protected void FollowTarget() {
+        private void FollowTarget() {
             if (targetTransform == null) return;
 
             // target speed check
