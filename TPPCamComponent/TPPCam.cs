@@ -8,13 +8,9 @@ namespace TPPCamera.TPPCamComponent {
     public sealed class TPPCam : MonoBehaviour {
 
         #region FIELDS
-        // velocity check
-        private Vector3 lastTargetPos;
 
         // movement
         private Vector3 smoothCamOffset;
-
-        //private Vector3 targetVelocity;
 
         // camera follow target
         private Vector3 targetTransPos;
@@ -55,9 +51,6 @@ namespace TPPCamera.TPPCamComponent {
 
         [SerializeField]
         private Mode mode;
-
-        //[SerializeField]
-        //private Vector3 movementVelocityOffset;
 
         [SerializeField]
         private Vector3 offsetWhenNotVisible;
@@ -114,11 +107,6 @@ namespace TPPCamera.TPPCamComponent {
             set { mode = value; }
         }
 
-        //public Vector3 MovementVelocityOffset {
-        //    get { return movementVelocityOffset; }
-        //    set { movementVelocityOffset = value; }
-        //}
-
         public Vector3 OffsetWhenNotVisible {
             get { return offsetWhenNotVisible; }
             set { offsetWhenNotVisible = value; }
@@ -137,19 +125,6 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 TargetTransPos {
             get { return targetTransPos; }
             set { targetTransPos = value; }
-        }
-
-        //private Vector3 TargetVelocity {
-        //    get { return targetVelocity; }
-        //    set { targetVelocity = value; }
-        //}
-
-        /// <summary>
-        /// Helper variable.
-        /// </summary>
-        private Vector3 LastTargetPos {
-            get { return lastTargetPos; }
-            set { lastTargetPos = value; }
         }
 
         /// <summary>
@@ -229,7 +204,6 @@ namespace TPPCamera.TPPCamComponent {
         private void FollowTarget() {
             if (TargetTransform == null) return;
 
-            CalculateTargetVelocity();
             CalculateLerpSpeed();
             UpdateTargetTransformPosition();
             CheckTargetTransformOcclusion();
@@ -271,12 +245,6 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void UpdateSmoothCamOffset() {
-            //resultCameraOffset += TargetVelocity;
-
-            //Logger.LogString("resultCameraOffset: {0}; TargetVelocity: {1}",
-            //    resultCameraOffset,
-            //    TargetVelocity);
-
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
                 ResultCameraOffset,
@@ -307,30 +275,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void CalculateLerpSpeed() {
-            // Increase camera speed along with target speed.
-            //var averageVelocity = (Mathf.Abs(TargetVelocity.x)
-            //                   + Mathf.Abs(TargetVelocity.y)
-            //                   + Mathf.Abs(TargetVelocity.z)) / 3;
-
-            //LerpSpeed = (averageVelocity + FollowSpeed)
             LerpSpeed = FollowSpeed * Time.fixedDeltaTime;
-        }
-
-        private void CalculateTargetVelocity() {
-            // target speed check
-            //TargetVelocity = (TargetTransform.position - LastTargetPos)
-            //                 / Time.fixedDeltaTime;
-
-            //Logger.LogString("TargetVelocity: {0}", TargetVelocity);
-
-            //TargetVelocity = Vector3.Scale(
-            //    TargetVelocity,
-            //    MovementVelocityOffset);
-
-            //Logger.LogString("TargetVelocity: {0}", TargetVelocity);
-
-            // save last target position
-            LastTargetPos = TargetTransform.position;
         }
 
         private void UpdateTargetTransformPosition() {
@@ -367,9 +312,6 @@ namespace TPPCamera.TPPCamComponent {
                 TargetTransPos += dir * magnitude * Time.fixedDeltaTime
                     * FollowSpeed;
             }
-            //else {
-            //    TargetVelocity = Vector3.zero;
-            //}
         }
 
         #endregion METHODS
