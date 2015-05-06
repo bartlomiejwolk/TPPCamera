@@ -216,18 +216,14 @@ namespace TPPCamera.TPPCamComponent {
             CalculateTargetVelocity();
             CalculateLerpSpeed();
 
-            // save camera rotation
-            var tRot = Quaternion.identity;
-
             HandleSelectedMode();
             DetectOccluders();
             UpdateOcclusionLookAtPointOffset();
 
-            // control occlusion offsets
-            SmoothCamOffset = Vector3.MoveTowards(
-                SmoothCamOffset,
-                OcclusionOffset,
-                Time.fixedDeltaTime * PerspectiveChangeSpeed);
+            UpdateSmoothCamOffset();
+
+            // save camera rotation
+            var tRot = Quaternion.identity;
             tRot.SetLookRotation(
                 (CameraTarget
                  + (OcclusionLookAtPointOffset
@@ -249,6 +245,15 @@ namespace TPPCamera.TPPCamComponent {
             LastTargetPos = TargetTransform.position;
         }
 
+        private void UpdateSmoothCamOffset() {
+            // control occlusion offsets
+            SmoothCamOffset = Vector3.MoveTowards(
+                SmoothCamOffset,
+                OcclusionOffset,
+                Time.fixedDeltaTime * PerspectiveChangeSpeed);
+        }
+
+        // todo replace with two separate handlers
         private void UpdateOcclusionLookAtPointOffset() {
             if (PlayerVisible) {
                 OcclusionOffset = CameraOffset;
