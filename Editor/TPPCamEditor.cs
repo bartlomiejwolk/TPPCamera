@@ -107,7 +107,7 @@ namespace TPPCamera.TPPCamComponent {
             EditorGUILayout.PropertyField(
                 lookAtPointWhenNotVisible,
                 new GUIContent(
-                    "Look At Point When Not Visible",
+                    "Target Not Visible",
                     "Use to offset target pivot point when target is occluded."));
         }
 
@@ -115,7 +115,7 @@ namespace TPPCamera.TPPCamComponent {
             EditorGUILayout.PropertyField(
                 offsetWhenNotVisible,
                 new GUIContent(
-                    "Offset When Not Visible",
+                    "Target Not Visible",
                     "Offset applied to 'Camera Offset' when target is not " +
                     "visible to the camera."));
         }
@@ -134,7 +134,7 @@ namespace TPPCamera.TPPCamComponent {
             EditorGUILayout.PropertyField(
                 lookAtPointOffset,
                 new GUIContent(
-                    "Look At Point Offset",
+                    "Target Visible",
                     "Camera rotation offset."));
         }
 
@@ -142,7 +142,7 @@ namespace TPPCamera.TPPCamComponent {
             EditorGUILayout.PropertyField(
                 cameraOffset,
                 new GUIContent(
-                    "Camera Offset",
+                    "Target Visible",
                     "Default camera position relative to the target."));
         }
 
