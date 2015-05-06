@@ -15,6 +15,8 @@ namespace TPPCamera.TPPCamComponent {
 
         // camera follow target
         private Vector3 cameraTarget;
+
+        private float lerpSpeed;
         #endregion FIELDS
 
         #region INSPECTOR FIELDS
@@ -139,6 +141,11 @@ namespace TPPCamera.TPPCamComponent {
             set { smoothCamOffset = value; }
         }
 
+        private float LerpSpeed {
+            get { return lerpSpeed; }
+            set { lerpSpeed = value; }
+        }
+
         #endregion
         #region UNITY MESSAGES
 
@@ -181,22 +188,8 @@ namespace TPPCamera.TPPCamComponent {
         private void FollowTarget() {
             if (TargetTransform == null) return;
 
-            // target speed check
-            TargetVelocity = (TargetTransform.position - LastTargetPos)
-                             / Time.fixedDeltaTime;
-
-            TargetVelocity = Vector3.Scale(
-                TargetVelocity,
-                MovementVelocityOffset);
-
-            // Camera movement speed.
-            // Increase camera speed along with target speed.
-            var avgVelocity = (Mathf.Abs(TargetVelocity.x)
-                               + Mathf.Abs(TargetVelocity.y)
-                               + Mathf.Abs(TargetVelocity.z)) / 3;
-
-            var lerpSpeed = (avgVelocity + FollowSpeed)
-                * Time.fixedDeltaTime;
+            CalculateTargetVelocity();
+            CalculateLerpSpeed();
 
             // save camera rotation
             var tRot = Quaternion.identity;
@@ -236,7 +229,7 @@ namespace TPPCamera.TPPCamComponent {
             transform.position = Vector3.Lerp(
                 transform.position,
                 CameraTarget + SmoothCamOffset,
-                lerpSpeed);
+                LerpSpeed);
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 tRot,
@@ -244,6 +237,29 @@ namespace TPPCamera.TPPCamComponent {
 
             // save last target position
             LastTargetPos = TargetTransform.position;
+        }
+
+        private void CalculateLerpSpeed() {
+
+// Camera movement speed.
+            // Increase camera speed along with target speed.
+            var avgVelocity = (Mathf.Abs(TargetVelocity.x)
+                               + Mathf.Abs(TargetVelocity.y)
+                               + Mathf.Abs(TargetVelocity.z)) / 3;
+
+            LerpSpeed = (avgVelocity + FollowSpeed)
+                        * Time.fixedDeltaTime;
+        }
+
+        private void CalculateTargetVelocity() {
+
+// target speed check
+            TargetVelocity = (TargetTransform.position - LastTargetPos)
+                             / Time.fixedDeltaTime;
+
+            TargetVelocity = Vector3.Scale(
+                TargetVelocity,
+                MovementVelocityOffset);
         }
 
         private void HandleMode() {
