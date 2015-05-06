@@ -23,7 +23,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private Vector3 updatedLookAtPointOffset;
 
-        private Vector3 updatedCameraOffset;
+        private Vector3 resultCameraOffset;
 
         private bool targetTransformVisible;
 
@@ -170,9 +170,9 @@ namespace TPPCamera.TPPCamComponent {
             set { updatedLookAtPointOffset = value; }
         }
 
-        private Vector3 UpdatedCameraOffset {
-            get { return updatedCameraOffset; }
-            set { updatedCameraOffset = value; }
+        private Vector3 ResultCameraOffset {
+            get { return resultCameraOffset; }
+            set { resultCameraOffset = value; }
         }
 
         private bool TargetTransformVisible {
@@ -271,22 +271,22 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void UpdateSmoothCamOffset() {
-            //UpdatedCameraOffset += TargetVelocity;
+            //resultCameraOffset += TargetVelocity;
 
-            //Logger.LogString("UpdatedCameraOffset: {0}; TargetVelocity: {1}",
-            //    UpdatedCameraOffset,
+            //Logger.LogString("resultCameraOffset: {0}; TargetVelocity: {1}",
+            //    resultCameraOffset,
             //    TargetVelocity);
 
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
-                UpdatedCameraOffset,
+                ResultCameraOffset,
                 PerspectiveChangeSpeed * Time.fixedDeltaTime);
         }
 
         private void HandleTargetTransformVisible() {
             if (!TargetTransformVisible) return;
 
-            UpdatedCameraOffset = CameraOffset;
+            ResultCameraOffset = CameraOffset;
 
             UpdatedLookAtPointOffset =
             new Vector3(
@@ -298,7 +298,7 @@ namespace TPPCamera.TPPCamComponent {
         private void HandleTargetTransformNotVisible() {
             if (TargetTransformVisible) return;
 
-            UpdatedCameraOffset = OffsetWhenNotVisible;
+            ResultCameraOffset = OffsetWhenNotVisible;
 
             UpdatedLookAtPointOffset = new Vector3(
                 LookAtPointWhenNotVisible.x,
