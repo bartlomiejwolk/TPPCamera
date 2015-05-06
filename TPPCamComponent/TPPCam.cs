@@ -17,6 +17,13 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 cameraTarget;
 
         private float lerpSpeed;
+
+        private Vector3 occlusionLookAtPointOffset;
+
+        private Vector3 occlusionOffset;
+
+        private bool playerVisible;
+
         #endregion FIELDS
 
         #region INSPECTOR FIELDS
@@ -146,6 +153,21 @@ namespace TPPCamera.TPPCamComponent {
             set { lerpSpeed = value; }
         }
 
+        private Vector3 OcclusionLookAtPointOffset {
+            get { return occlusionLookAtPointOffset; }
+            set { occlusionLookAtPointOffset = value; }
+        }
+
+        private Vector3 OcclusionOffset {
+            get { return occlusionOffset; }
+            set { occlusionOffset = value; }
+        }
+
+        private bool PlayerVisible {
+            get { return playerVisible; }
+            set { playerVisible = value; }
+        }
+
         #endregion
         #region UNITY MESSAGES
 
@@ -154,15 +176,16 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void Start() {
-            SmoothCamOffset = CameraOffset;
             CameraTarget = TargetTransform.position;
+            SmoothCamOffset = CameraOffset;
         }
 
         #endregion UNITY MESSAGES
 
         #region METHODS
 
-        private bool DetectOccluders() {
+        // detect if player is visible and set offset accordingly
+        private void DetectOccluders() {
             // get distance and direction for raycast
             var cameraOffsetPos = TargetTransform.position + CameraOffset;
             // Ray length decreased by 0.1 to not hit the floor.
@@ -180,9 +203,11 @@ namespace TPPCamera.TPPCamComponent {
                 out hit,
                 tDist,
                 CameraOcclusionLayerMask)) {
-                return false;
+
+                PlayerVisible = false;
             }
-            return true;
+
+            PlayerVisible = true;
         }
 
         private void FollowTarget() {
@@ -194,33 +219,32 @@ namespace TPPCamera.TPPCamComponent {
             // save camera rotation
             var tRot = Quaternion.identity;
 
-            HandleMode();
+            HandleSelectedMode();
+            DetectOccluders();
 
-            // detect if player is visible and set offset accordingly
-            var playerVisible = DetectOccluders();
-            var occlusionOffset = CameraOffset;
-            var occlusionLookAtPointOffset =
+            OcclusionOffset = CameraOffset;
+            OcclusionLookAtPointOffset =
                 new Vector3(
                     LookAtPointOffset.x,
                     -SmoothCamOffset.y,
                     LookAtPointOffset.y);
-            if (!playerVisible) {
-                occlusionOffset = OffsetWhenNotVisible;
-                occlusionLookAtPointOffset = new Vector3(
+            if (!PlayerVisible) {
+                OcclusionOffset = OffsetWhenNotVisible;
+                OcclusionLookAtPointOffset = new Vector3(
                     LookAtPointWhenNotVisible.x,
                     -SmoothCamOffset.y,
                     LookAtPointWhenNotVisible.z);
             }
-            occlusionOffset += TargetVelocity;
+            OcclusionOffset += TargetVelocity;
 
             // control occlusion offsets
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
-                occlusionOffset,
+                OcclusionOffset,
                 Time.fixedDeltaTime * PerspectiveChangeSpeed);
             tRot.SetLookRotation(
                 (CameraTarget
-                 + (occlusionLookAtPointOffset
+                 + (OcclusionLookAtPointOffset
                     + (transform.position - CameraTarget)))
                 - transform.position,
                 TargetTransform.up);
@@ -240,8 +264,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void CalculateLerpSpeed() {
-
-// Camera movement speed.
+            // Camera movement speed.
             // Increase camera speed along with target speed.
             var avgVelocity = (Mathf.Abs(TargetVelocity.x)
                                + Mathf.Abs(TargetVelocity.y)
@@ -252,8 +275,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void CalculateTargetVelocity() {
-
-// target speed check
+            // target speed check
             TargetVelocity = (TargetTransform.position - LastTargetPos)
                              / Time.fixedDeltaTime;
 
@@ -262,7 +284,7 @@ namespace TPPCamera.TPPCamComponent {
                 MovementVelocityOffset);
         }
 
-        private void HandleMode() {
+        private void HandleSelectedMode() {
             // control camera in Limited mode
             if (Mode == Mode.Limited) {
                 if (Mathf.Abs(TargetTransform.position.x - CameraTarget.x)
