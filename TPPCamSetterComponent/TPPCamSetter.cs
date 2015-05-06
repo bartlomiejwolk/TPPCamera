@@ -11,7 +11,7 @@ namespace TPPCamera.TPPCamSetterComponent {
 
     }
 
-    public class TPPCamSetter : MonoBehaviour {
+    public sealed class TPPCamSetter : MonoBehaviour {
 
         #region FIELDS
 

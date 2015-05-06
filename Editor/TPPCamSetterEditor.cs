@@ -1,20 +1,16 @@
-﻿using TPPCamera.TPPCamComponent;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using Vexe.Runtime.Extensions;
 
 namespace TPPCamera.TPPCamSetterComponent {
 
     [CustomEditor(typeof(TPPCamSetter))]
-    class TPPCamSetterEditor : Editor {
+    public sealed class TPPCamSetterEditor : Editor {
 
         private TPPCamSetter Script { get; set; }
 
         #region SERIALIZED PROPERTIES
 
         private SerializedProperty cameraCo;
-        //private SerializedProperty cameraOffset;
-        //private SerializedProperty lookAtPointOffset;
 
         #endregion
         #region UNITY MESSAGES
@@ -23,11 +19,6 @@ namespace TPPCamera.TPPCamSetterComponent {
             Script = (TPPCamSetter) target;
 
             cameraCo = serializedObject.FindProperty("cameraCo");
-
-            // TPPCam properties.
-            //cameraOffset = serializedObject.FindProperty("cameraOffset");
-            //lookAtPointOffset =
-            //    serializedObject.FindProperty("lookAtPointOffset");
         }
 
         public override void OnInspectorGUI() {

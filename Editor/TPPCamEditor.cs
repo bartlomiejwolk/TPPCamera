@@ -4,7 +4,7 @@ using UnityEngine;
 namespace TPPCamera.TPPCamComponent {
 
     [CustomEditor(typeof (TPPCam))]
-    internal class TPPCamEditor : Editor {
+    public sealed class TPPCamEditor : Editor {
 
         #region FIELDS
 
