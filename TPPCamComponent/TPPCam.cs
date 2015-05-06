@@ -224,18 +224,23 @@ namespace TPPCamera.TPPCamComponent {
             UpdateSmoothCamOffset();
             CalculateEndRotation();
 
-            // apply transformations
-            transform.position = Vector3.Lerp(
-                transform.position,
-                CameraTarget + SmoothCamOffset,
-                LerpSpeed);
+            ApplyEndPosition();
+            ApplyEndRotation();
+        }
+
+        private void ApplyEndRotation() {
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 tRot,
                 CameraRotationSpeed * Time.fixedDeltaTime);
+        }
 
-            // save last target position
-            LastTargetPos = TargetTransform.position;
+        private void ApplyEndPosition() {
+        // apply transformations
+            transform.position = Vector3.Lerp(
+                transform.position,
+                CameraTarget + SmoothCamOffset,
+                LerpSpeed);
         }
 
         private void CalculateEndRotation() {
@@ -297,6 +302,9 @@ namespace TPPCamera.TPPCamComponent {
             TargetVelocity = Vector3.Scale(
                 TargetVelocity,
                 MovementVelocityOffset);
+
+            // save last target position
+            LastTargetPos = TargetTransform.position;
         }
 
         private void HandleSelectedMode() {
