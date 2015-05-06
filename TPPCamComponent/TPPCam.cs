@@ -19,7 +19,7 @@ namespace TPPCamera.TPPCamComponent {
         // camera follow target
         private Vector3 targetTransformPos;
 
-        private float lerpSpeed;
+        private float lerpPositionSpeed;
 
         private Vector3 updatedLookAtPointOffset;
 
@@ -123,6 +123,10 @@ namespace TPPCamera.TPPCamComponent {
             set { targetTransform = value; }
         }
 
+        /// <summary>
+        /// Holds info about target transform position.
+        /// Used in Limited mode.
+        /// </summary>
         private Vector3 TargetTransformPos {
             get { return targetTransformPos; }
             set { targetTransformPos = value; }
@@ -136,9 +140,12 @@ namespace TPPCamera.TPPCamComponent {
             set { lerpedCameraOffset = value; }
         }
 
-        private float LerpSpeed {
-            get { return lerpSpeed; }
-            set { lerpSpeed = value; }
+        /// <summary>
+        /// Camera position lerp speed.
+        /// </summary>
+        private float LerpPositionSpeed {
+            get { return lerpPositionSpeed; }
+            set { lerpPositionSpeed = value; }
         }
 
         private Vector3 UpdatedLookAtPointOffset {
@@ -234,7 +241,7 @@ namespace TPPCamera.TPPCamComponent {
             transform.position = Vector3.Lerp(
                 transform.position,
                 TargetTransformPos + LerpedCameraOffset,
-                LerpSpeed);
+                LerpPositionSpeed);
         }
 
         private void CalculateEndRotation() {
@@ -278,7 +285,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void CalculateLerpSpeed() {
-            LerpSpeed = FollowSpeed * Time.fixedDeltaTime;
+            LerpPositionSpeed = FollowSpeed * Time.fixedDeltaTime;
         }
 
         private void UpdateTargetTransformPosition() {
