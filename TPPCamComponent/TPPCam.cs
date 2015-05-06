@@ -14,7 +14,7 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 targetVelocity;
 
         // camera follow target
-        private Vector3 targetTransformPosition;
+        private Vector3 targetTransPos;
 
         private float lerpSpeed;
 
@@ -131,9 +131,9 @@ namespace TPPCamera.TPPCamComponent {
             set { targetTransform = value; }
         }
 
-        private Vector3 TargetTransformPosition {
-            get { return targetTransformPosition; }
-            set { targetTransformPosition = value; }
+        private Vector3 TargetTransPos {
+            get { return targetTransPos; }
+            set { targetTransPos = value; }
         }
 
         private Vector3 TargetVelocity {
@@ -182,7 +182,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void Start() {
-            TargetTransformPosition = TargetTransform.position;
+            TargetTransPos = TargetTransform.position;
             SmoothCamOffset = CameraOffset;
         }
 
@@ -245,7 +245,7 @@ namespace TPPCamera.TPPCamComponent {
             // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
-                TargetTransformPosition + SmoothCamOffset,
+                TargetTransPos + SmoothCamOffset,
                 LerpSpeed);
         }
 
@@ -253,9 +253,9 @@ namespace TPPCamera.TPPCamComponent {
             // save camera rotation
             endRotation = Quaternion.identity;
             endRotation.SetLookRotation(
-                (TargetTransformPosition
+                (TargetTransPos
                  + (UpdatedLookAtPointOffset
-                    + (transform.position - TargetTransformPosition)))
+                    + (transform.position - TargetTransPos)))
                 - transform.position,
                 TargetTransform.up);
         }
@@ -321,29 +321,34 @@ namespace TPPCamera.TPPCamComponent {
                 case Mode.Limited:
                     HandleCameraLimits();
 
-                    TargetTransformPosition = new Vector3(
-                        TargetTransformPosition.x,
+                    TargetTransPos = new Vector3(
+                        TargetTransPos.x,
                         TargetTransform.position.y,
-                        TargetTransformPosition.z);
+                        TargetTransPos.z);
                     break;
                 case Mode.Instantenous:
-                    TargetTransformPosition = TargetTransform.position;
+                    TargetTransPos = TargetTransform.position;
                     break;
             }
         }
 
-        // todo refactor
         private void HandleCameraLimits() {
-            if (Mathf.Abs(TargetTransform.position.x - TargetTransformPosition.x)
-                > CameraLimits.x
-                ||
-                Mathf.Abs(TargetTransform.position.z - TargetTransformPosition.z)
-                > CameraLimits.y) {
+            var exceedLimitX = Mathf.Abs(
+                    TargetTransform.position.x - TargetTransPos.x)
+                    > CameraLimits.x;
 
-                TargetTransformPosition +=
-                    (TargetTransform.position - TargetTransformPosition).normalized
-                    * (TargetTransform.position - TargetTransformPosition).magnitude
-                    * Time.fixedDeltaTime * FollowSpeed;
+            var exceedLimitZ = Mathf.Abs(
+                    TargetTransform.position.z - TargetTransPos.z)
+                    > CameraLimits.y;
+
+            if (exceedLimitX || exceedLimitZ) {
+                var dir =
+                    (TargetTransform.position - TargetTransPos).normalized;
+                var magnitude =
+                    (TargetTransform.position - TargetTransPos).magnitude;
+
+                TargetTransPos += dir * magnitude * Time.fixedDeltaTime
+                    * FollowSpeed;
             }
             else {
                 TargetVelocity = Vector3.zero;
