@@ -48,7 +48,7 @@ namespace TPPCamera.TPPCamComponent {
 
         // see through camera variables
         [SerializeField]
-        private Vector3 lookAtPointWhenNotVisible;
+        private Vector2 lookAtPointWhenNotVisible;
 
         [SerializeField]
         private Mode mode;
@@ -101,7 +101,7 @@ namespace TPPCamera.TPPCamComponent {
             set { lookAtPointOffset = value; }
         }
 
-        public Vector3 LookAtPointWhenNotVisible {
+        public Vector2 LookAtPointWhenNotVisible {
             get { return lookAtPointWhenNotVisible; }
             set { lookAtPointWhenNotVisible = value; }
         }
@@ -292,7 +292,7 @@ namespace TPPCamera.TPPCamComponent {
             UpdatedLookAtPointOffset = new Vector3(
                 LookAtPointWhenNotVisible.x,
                 -SmoothCamOffset.y,
-                LookAtPointWhenNotVisible.z);
+                LookAtPointWhenNotVisible.y);
         }
 
         private void CalculateLerpSpeed() {
