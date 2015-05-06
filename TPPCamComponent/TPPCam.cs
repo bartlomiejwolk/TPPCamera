@@ -215,7 +215,7 @@ namespace TPPCamera.TPPCamComponent {
             CheckTargetTransformOcclusion();
             HandleTargetTransformVisible();
             HandleTargetTransformNotVisible();
-            UpdateSmoothCamOffset();
+            LerpCameraOffset();
             CalculateEndRotation();
 
             ApplyEndPosition();
@@ -247,7 +247,7 @@ namespace TPPCamera.TPPCamComponent {
                 TargetTransform.up);
         }
 
-        private void UpdateSmoothCamOffset() {
+        private void LerpCameraOffset() {
             LerpedCameraOffset = Vector3.MoveTowards(
                 LerpedCameraOffset,
                 EndCameraOffset,
