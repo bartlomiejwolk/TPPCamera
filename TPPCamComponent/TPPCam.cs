@@ -119,6 +119,11 @@ namespace TPPCamera.TPPCamComponent {
             set { targetTransform = value; }
         }
 
+        private Vector3 CameraTarget {
+            get { return cameraTarget; }
+            set { cameraTarget = value; }
+        }
+
         #endregion
         #region UNITY MESSAGES
 
@@ -128,7 +133,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private void Start() {
             smoothCamOffset = CameraOffset;
-            cameraTarget = TargetTransform.position;
+            CameraTarget = TargetTransform.position;
         }
 
         #endregion UNITY MESSAGES
@@ -180,30 +185,7 @@ namespace TPPCamera.TPPCamComponent {
             // save camera rotation
             var tRot = Quaternion.identity;
 
-            // control camera in Limited mode
-            if (Mode == Mode.Limited) {
-                if (Mathf.Abs(TargetTransform.position.x - cameraTarget.x)
-                    > CameraLimits.x
-                    ||
-                    Mathf.Abs(TargetTransform.position.z - cameraTarget.z)
-                    > CameraLimits.y) {
-
-                    cameraTarget +=
-                        (TargetTransform.position - cameraTarget).normalized
-                        * (TargetTransform.position - cameraTarget).magnitude
-                        * Time.fixedDeltaTime * FollowSpeed;
-                }
-                else {
-                    targetVelocity = Vector3.zero;
-                }
-                cameraTarget = new Vector3(
-                    cameraTarget.x,
-                    TargetTransform.position.y,
-                    cameraTarget.z);
-            }
-            else {
-                cameraTarget = TargetTransform.position;
-            }
+            HandleMode();
 
             // detect if player is visible and set offset accordingly
             var playerVisible = DetectOccluders();
@@ -228,16 +210,16 @@ namespace TPPCamera.TPPCamComponent {
                 occlusionOffset,
                 Time.fixedDeltaTime * PerspectiveChangeSpeed);
             tRot.SetLookRotation(
-                (cameraTarget
+                (CameraTarget
                  + (occlusionLookAtPointOffset
-                    + (transform.position - cameraTarget)))
+                    + (transform.position - CameraTarget)))
                 - transform.position,
                 TargetTransform.up);
 
             // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
-                cameraTarget + smoothCamOffset,
+                CameraTarget + smoothCamOffset,
                 lerpSpeed);
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
@@ -246,6 +228,33 @@ namespace TPPCamera.TPPCamComponent {
 
             // save last target position
             lastTargetPos = TargetTransform.position;
+        }
+
+        private void HandleMode() {
+            // control camera in Limited mode
+            if (Mode == Mode.Limited) {
+                if (Mathf.Abs(TargetTransform.position.x - CameraTarget.x)
+                    > CameraLimits.x
+                    ||
+                    Mathf.Abs(TargetTransform.position.z - CameraTarget.z)
+                    > CameraLimits.y) {
+
+                    CameraTarget +=
+                        (TargetTransform.position - CameraTarget).normalized
+                        * (TargetTransform.position - CameraTarget).magnitude
+                        * Time.fixedDeltaTime * FollowSpeed;
+                }
+                else {
+                    targetVelocity = Vector3.zero;
+                }
+                CameraTarget = new Vector3(
+                    CameraTarget.x,
+                    TargetTransform.position.y,
+                    CameraTarget.z);
+            }
+            else {
+                CameraTarget = TargetTransform.position;
+            }
         }
 
         #endregion METHODS
