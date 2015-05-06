@@ -14,18 +14,8 @@ namespace TPPCamera.TPPCamComponent {
         private Quaternion endRotation;
 
         // movement
-        private Vector3 lerpedCameraOffset;
 
         // camera follow target
-        private Vector3 targetTransformPos;
-
-        private float lerpPositionSpeed;
-
-        private Vector3 endLookAtPointOffset;
-
-        private Vector3 endCameraOffset;
-
-        private bool targetTransformVisible;
 
         #endregion FIELDS
 
@@ -127,51 +117,37 @@ namespace TPPCamera.TPPCamComponent {
         /// Holds info about target transform position.
         /// Used in Limited mode.
         /// </summary>
-        private Vector3 TargetTransformPos {
-            get { return targetTransformPos; }
-            set { targetTransformPos = value; }
-        }
+        private Vector3 TargetTransformPos { get; set; }
 
         /// <summary>
         /// Camera offset while following the target transform.
         /// </summary>
-        private Vector3 LerpedCameraOffset {
-            get { return lerpedCameraOffset; }
-            set { lerpedCameraOffset = value; }
-        }
+        private Vector3 LerpedCameraOffset { get; set; }
 
         /// <summary>
         /// Camera position lerp speed.
         /// </summary>
-        private float LerpPositionSpeed {
-            get { return lerpPositionSpeed; }
-            set { lerpPositionSpeed = value; }
-        }
+        private float LerpPositionSpeed { get; set; }
 
         /// <summary>
         /// Depending on whether the target transform is occluded or not, 
         /// this will be one of the two look at point offsets specified in the
         /// inspector.
         /// </summary>
-        private Vector3 EndLookAtPointOffset {
-            get { return endLookAtPointOffset; }
-            set { endLookAtPointOffset = value; }
-        }
+        private Vector3 EndLookAtPointOffset { get; set; }
 
         /// <summary>
         /// Depending on whether the target transform is occluded or not, 
         /// this will be one of the two camera offsets specified in the
         /// inspector.
         /// </summary>
-        private Vector3 EndCameraOffset {
-            get { return endCameraOffset; }
-            set { endCameraOffset = value; }
-        }
+        private Vector3 EndCameraOffset { get; set; }
 
-        private bool TargetTransformVisible {
-            get { return targetTransformVisible; }
-            set { targetTransformVisible = value; }
-        }
+        /// <summary>
+        /// This is true when target transform is visible to the camera, ie.
+        /// is not occluded.
+        /// </summary>
+        private bool TargetTransformVisible { get; set; }
 
         #endregion
         #region UNITY MESSAGES

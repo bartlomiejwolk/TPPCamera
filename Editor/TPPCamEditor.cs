@@ -23,7 +23,7 @@ namespace TPPCamera.TPPCamComponent {
         private SerializedProperty lookAtPointWhenNotVisible;
         private SerializedProperty mode;
         private SerializedProperty offsetWhenNotVisible;
-        private SerializedProperty perspectiveChangeSpeed;
+        private SerializedProperty cameraOffsetLerpSpeed;
         private SerializedProperty targetTransform;
 
         #endregion
@@ -45,8 +45,8 @@ namespace TPPCamera.TPPCamComponent {
             mode = serializedObject.FindProperty("mode");
             offsetWhenNotVisible =
                 serializedObject.FindProperty("offsetWhenNotVisible");
-            perspectiveChangeSpeed =
-                serializedObject.FindProperty("perspectiveChangeSpeed");
+            cameraOffsetLerpSpeed =
+                serializedObject.FindProperty("cameraOffsetLerpSpeed");
             targetTransform = serializedObject.FindProperty("targetTransform");
         }
 
@@ -55,8 +55,8 @@ namespace TPPCamera.TPPCamComponent {
 
             DrawTargetTransformField();
             DrawFollowSpeedField();
+            DrawCameraOffsetLerpSpeedField();
             DrawCameraRotationSpeedField();
-            DrawPerspectiveChangeSpeedField();
             DrawModeDropdown();
             DrawOcclusionLayerMaskDropdown();
 
@@ -106,14 +106,12 @@ namespace TPPCamera.TPPCamComponent {
                     "visible to the camera."));
         }
 
-        private void DrawPerspectiveChangeSpeedField() {
+        private void DrawCameraOffsetLerpSpeedField() {
             EditorGUILayout.PropertyField(
-                perspectiveChangeSpeed,
+                cameraOffsetLerpSpeed,
                 new GUIContent(
-                    "Perspective Speed",
-                    "When target gets occluded and camera wants to change " +
-                    "position to see the target again, this is how fast this " +
-                    "will happen."));
+                    "Camera Mov. Speed",
+                    "Camera movement speed."));
         }
 
         private void DrawLookAtPointOffsetField() {
@@ -158,7 +156,7 @@ namespace TPPCamera.TPPCamComponent {
                 cameraRotationSpeed,
                 new GUIContent(
                     "Cam. Rot. Speed",
-                    ""));
+                    "Camera rotation speed."));
         }
 
         private void DrawFollowSpeedField() {
