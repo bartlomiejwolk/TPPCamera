@@ -22,7 +22,7 @@ namespace TPPCamera.TPPCamComponent {
         private SerializedProperty lookAtPointOffset;
         private SerializedProperty lookAtPointWhenNotVisible;
         private SerializedProperty mode;
-        private SerializedProperty movementVelocityOffset;
+        //private SerializedProperty movementVelocityOffset;
         private SerializedProperty offsetWhenNotVisible;
         private SerializedProperty perspectiveChangeSpeed;
         private SerializedProperty targetTransform;
@@ -44,8 +44,8 @@ namespace TPPCamera.TPPCamComponent {
             lookAtPointWhenNotVisible =
                 serializedObject.FindProperty("lookAtPointWhenNotVisible");
             mode = serializedObject.FindProperty("mode");
-            movementVelocityOffset =
-                serializedObject.FindProperty("movementVelocityOffset");
+            //movementVelocityOffset =
+            //    serializedObject.FindProperty("movementVelocityOffset");
             offsetWhenNotVisible =
                 serializedObject.FindProperty("offsetWhenNotVisible");
             perspectiveChangeSpeed =
@@ -76,7 +76,7 @@ namespace TPPCamera.TPPCamComponent {
             GUILayout.Label("Other", EditorStyles.boldLabel);
 
             DrawCameraLimitsField();
-            DrawMovementVelocityOffsetField();
+            //DrawMovementVelocityOffsetField();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -85,15 +85,15 @@ namespace TPPCamera.TPPCamComponent {
 
         #region INSPECTOR
 
-        private void DrawMovementVelocityOffsetField() {
-            EditorGUILayout.PropertyField(
-                movementVelocityOffset,
-                new GUIContent(
-                    "Movement Velocity Offset",
-                    "???\nTarget velocity will be scaled by this value. " +
-                    "In result, this affects camera lerp speed and occlusion " +
-                    "offset."));
-        }
+        //private void DrawMovementVelocityOffsetField() {
+        //    EditorGUILayout.PropertyField(
+        //        movementVelocityOffset,
+        //        new GUIContent(
+        //            "Movement Velocity Offset",
+        //            "???\nTarget velocity will be scaled by this value. " +
+        //            "In result, this affects camera lerp speed and occlusion " +
+        //            "offset."));
+        //}
 
         private void DrawCameraLimitsField() {
             EditorGUILayout.PropertyField(

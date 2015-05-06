@@ -1,3 +1,6 @@
+#define DEBUG_LOGGER
+
+using FileLogger;
 using UnityEngine;
 
 namespace TPPCamera.TPPCamComponent {
@@ -53,8 +56,8 @@ namespace TPPCamera.TPPCamComponent {
         [SerializeField]
         private Mode mode;
 
-        [SerializeField]
-        private Vector3 movementVelocityOffset;
+        //[SerializeField]
+        //private Vector3 movementVelocityOffset;
 
         [SerializeField]
         private Vector3 offsetWhenNotVisible;
@@ -111,10 +114,10 @@ namespace TPPCamera.TPPCamComponent {
             set { mode = value; }
         }
 
-        public Vector3 MovementVelocityOffset {
-            get { return movementVelocityOffset; }
-            set { movementVelocityOffset = value; }
-        }
+        //public Vector3 MovementVelocityOffset {
+        //    get { return movementVelocityOffset; }
+        //    set { movementVelocityOffset = value; }
+        //}
 
         public Vector3 OffsetWhenNotVisible {
             get { return offsetWhenNotVisible; }
@@ -149,6 +152,9 @@ namespace TPPCamera.TPPCamComponent {
             set { lastTargetPos = value; }
         }
 
+        /// <summary>
+        /// Camera offset while following the target transform.
+        /// </summary>
         private Vector3 SmoothCamOffset {
             get { return smoothCamOffset; }
             set { smoothCamOffset = value; }
@@ -265,11 +271,14 @@ namespace TPPCamera.TPPCamComponent {
         private void UpdateSmoothCamOffset() {
             UpdatedCameraOffset += TargetVelocity;
 
-            // control occlusion offsets
+            Logger.LogString("UpdatedCameraOffset: {0}; TargetVelocity: {1}",
+                UpdatedCameraOffset,
+                TargetVelocity);
+
             SmoothCamOffset = Vector3.MoveTowards(
                 SmoothCamOffset,
                 UpdatedCameraOffset,
-                Time.fixedDeltaTime * PerspectiveChangeSpeed);
+                PerspectiveChangeSpeed * Time.fixedDeltaTime);
         }
 
         private void HandleTargetTransformVisible() {
@@ -310,9 +319,13 @@ namespace TPPCamera.TPPCamComponent {
             TargetVelocity = (TargetTransform.position - LastTargetPos)
                              / Time.fixedDeltaTime;
 
-            TargetVelocity = Vector3.Scale(
-                TargetVelocity,
-                MovementVelocityOffset);
+            Logger.LogString("TargetVelocity: {0}", TargetVelocity);
+
+            //TargetVelocity = Vector3.Scale(
+            //    TargetVelocity,
+            //    MovementVelocityOffset);
+
+            //Logger.LogString("TargetVelocity: {0}", TargetVelocity);
 
             // save last target position
             LastTargetPos = TargetTransform.position;
