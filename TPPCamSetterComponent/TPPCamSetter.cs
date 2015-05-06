@@ -26,10 +26,7 @@ namespace TPPCamera.TPPCamSetterComponent {
 
         #endregion FIELDS
 
-        #region TPPCam FIELDS
-
-        #endregion
-
+        #region PROPERTIES
         /// <summary>
         /// Keeps info about what properties of the target camera component
         /// should be updated.
@@ -47,6 +44,24 @@ namespace TPPCamera.TPPCamSetterComponent {
             set { tppCamProperties = value; }
         }
 
+        public TPPCam CameraCo {
+            get { return cameraCo; }
+            set { cameraCo = value; }
+        }
+
+        #endregion
+
+        #region METHODS
+
+        public void UpdateTPPCam() {
+            var enabled = FlagsHelper.IsSet(
+                Properties,
+                Properties.LookAtPointOffset);
+
+            if (enabled) {
+            }
+        }
+        #endregion
     }
 
 }
