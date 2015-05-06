@@ -316,33 +316,37 @@ namespace TPPCamera.TPPCamComponent {
             LastTargetPos = TargetTransform.position;
         }
 
-        // todo refactor
         private void UpdateTargetTransformPosition() {
-            // control camera in Limited mode
-            if (Mode == Mode.Limited) {
-                // todo extract
-                if (Mathf.Abs(TargetTransform.position.x - TargetTransformPosition.x)
-                    > CameraLimits.x
-                    ||
-                    Mathf.Abs(TargetTransform.position.z - TargetTransformPosition.z)
-                    > CameraLimits.y) {
+            switch (Mode) {
+                case Mode.Limited:
+                    HandleCameraLimits();
 
-                    TargetTransformPosition +=
-                        (TargetTransform.position - TargetTransformPosition).normalized
-                        * (TargetTransform.position - TargetTransformPosition).magnitude
-                        * Time.fixedDeltaTime * FollowSpeed;
-                }
-                else {
-                    TargetVelocity = Vector3.zero;
-                }
+                    TargetTransformPosition = new Vector3(
+                        TargetTransformPosition.x,
+                        TargetTransform.position.y,
+                        TargetTransformPosition.z);
+                    break;
+                case Mode.Instantenous:
+                    TargetTransformPosition = TargetTransform.position;
+                    break;
+            }
+        }
 
-                TargetTransformPosition = new Vector3(
-                    TargetTransformPosition.x,
-                    TargetTransform.position.y,
-                    TargetTransformPosition.z);
+        // todo refactor
+        private void HandleCameraLimits() {
+            if (Mathf.Abs(TargetTransform.position.x - TargetTransformPosition.x)
+                > CameraLimits.x
+                ||
+                Mathf.Abs(TargetTransform.position.z - TargetTransformPosition.z)
+                > CameraLimits.y) {
+
+                TargetTransformPosition +=
+                    (TargetTransform.position - TargetTransformPosition).normalized
+                    * (TargetTransform.position - TargetTransformPosition).magnitude
+                    * Time.fixedDeltaTime * FollowSpeed;
             }
             else {
-                TargetTransformPosition = TargetTransform.position;
+                TargetVelocity = Vector3.zero;
             }
         }
 
