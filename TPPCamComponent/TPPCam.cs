@@ -65,6 +65,9 @@ namespace TPPCamera.TPPCamComponent {
         // main variables
         [SerializeField]
         private Transform targetTransform;
+
+        private Quaternion tRot;
+
         #endregion
 
         #region PROPERTIES
@@ -215,21 +218,11 @@ namespace TPPCamera.TPPCamComponent {
 
             CalculateTargetVelocity();
             CalculateLerpSpeed();
-
             HandleSelectedMode();
             DetectOccluders();
             UpdateOcclusionLookAtPointOffset();
-
             UpdateSmoothCamOffset();
-
-            // save camera rotation
-            var tRot = Quaternion.identity;
-            tRot.SetLookRotation(
-                (CameraTarget
-                 + (OcclusionLookAtPointOffset
-                    + (transform.position - CameraTarget)))
-                - transform.position,
-                TargetTransform.up);
+            CalculateEndRotation();
 
             // apply transformations
             transform.position = Vector3.Lerp(
@@ -243,6 +236,17 @@ namespace TPPCamera.TPPCamComponent {
 
             // save last target position
             LastTargetPos = TargetTransform.position;
+        }
+
+        private void CalculateEndRotation() {
+            // save camera rotation
+            tRot = Quaternion.identity;
+            tRot.SetLookRotation(
+                (CameraTarget
+                 + (OcclusionLookAtPointOffset
+                    + (transform.position - CameraTarget)))
+                - transform.position,
+                TargetTransform.up);
         }
 
         private void UpdateSmoothCamOffset() {

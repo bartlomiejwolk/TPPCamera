@@ -135,7 +135,7 @@ namespace TPPCamera.TPPCamComponent {
                 lookAtPointOffset,
                 new GUIContent(
                     "Look At Point Offset",
-                    "???"));
+                    "Camera rotation offset."));
         }
 
         private void DrawCameraOffsetField() {
