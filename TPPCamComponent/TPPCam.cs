@@ -14,7 +14,7 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 targetVelocity;
 
         // camera follow target
-        private Vector3 cameraTarget;
+        private Vector3 targetTransformPosition;
 
         private float lerpSpeed;
 
@@ -66,7 +66,7 @@ namespace TPPCamera.TPPCamComponent {
         [SerializeField]
         private Transform targetTransform;
 
-        private Quaternion tRot;
+        private Quaternion endRotation;
 
         #endregion
 
@@ -131,9 +131,9 @@ namespace TPPCamera.TPPCamComponent {
             set { targetTransform = value; }
         }
 
-        private Vector3 CameraTarget {
-            get { return cameraTarget; }
-            set { cameraTarget = value; }
+        private Vector3 TargetTransformPosition {
+            get { return targetTransformPosition; }
+            set { targetTransformPosition = value; }
         }
 
         private Vector3 TargetVelocity {
@@ -179,7 +179,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void Start() {
-            CameraTarget = TargetTransform.position;
+            TargetTransformPosition = TargetTransform.position;
             SmoothCamOffset = CameraOffset;
         }
 
@@ -232,7 +232,7 @@ namespace TPPCamera.TPPCamComponent {
         private void ApplyEndRotation() {
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
-                tRot,
+                endRotation,
                 CameraRotationSpeed * Time.fixedDeltaTime);
         }
 
@@ -240,17 +240,17 @@ namespace TPPCamera.TPPCamComponent {
         // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
-                CameraTarget + SmoothCamOffset,
+                TargetTransformPosition + SmoothCamOffset,
                 LerpSpeed);
         }
 
         private void CalculateEndRotation() {
             // save camera rotation
-            tRot = Quaternion.identity;
-            tRot.SetLookRotation(
-                (CameraTarget
+            endRotation = Quaternion.identity;
+            endRotation.SetLookRotation(
+                (TargetTransformPosition
                  + (OcclusionLookAtPointOffset
-                    + (transform.position - CameraTarget)))
+                    + (transform.position - TargetTransformPosition)))
                 - transform.position,
                 TargetTransform.up);
         }
@@ -313,28 +313,28 @@ namespace TPPCamera.TPPCamComponent {
             // control camera in Limited mode
             if (Mode == Mode.Limited) {
                 // todo extract
-                if (Mathf.Abs(TargetTransform.position.x - CameraTarget.x)
+                if (Mathf.Abs(TargetTransform.position.x - TargetTransformPosition.x)
                     > CameraLimits.x
                     ||
-                    Mathf.Abs(TargetTransform.position.z - CameraTarget.z)
+                    Mathf.Abs(TargetTransform.position.z - TargetTransformPosition.z)
                     > CameraLimits.y) {
 
-                    CameraTarget +=
-                        (TargetTransform.position - CameraTarget).normalized
-                        * (TargetTransform.position - CameraTarget).magnitude
+                    TargetTransformPosition +=
+                        (TargetTransform.position - TargetTransformPosition).normalized
+                        * (TargetTransform.position - TargetTransformPosition).magnitude
                         * Time.fixedDeltaTime * FollowSpeed;
                 }
                 else {
                     TargetVelocity = Vector3.zero;
                 }
 
-                CameraTarget = new Vector3(
-                    CameraTarget.x,
+                TargetTransformPosition = new Vector3(
+                    TargetTransformPosition.x,
                     TargetTransform.position.y,
-                    CameraTarget.z);
+                    TargetTransformPosition.z);
             }
             else {
-                CameraTarget = TargetTransform.position;
+                TargetTransformPosition = TargetTransform.position;
             }
         }
 
