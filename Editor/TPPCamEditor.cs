@@ -84,8 +84,8 @@ namespace TPPCamera.TPPCamComponent {
             EditorGUILayout.PropertyField(
                 deadZone,
                 new GUIContent(
-                    "Camera Limits",
-                    "Applies in 'Limited' mode."));
+                    "DeadZone",
+                    "Applies in 'DeadZone' mode."));
         }
 
         private void DrawCameraOffsetField() {
@@ -121,7 +121,7 @@ namespace TPPCamera.TPPCamComponent {
                 lookAtPointOffset,
                 new GUIContent(
                     "Target Visible",
-                    "Camera rotation offset."));
+                    "Default camera rotation offset."));
         }
 
         private void DrawLookAtPointWhenNotVisibleField() {
@@ -129,7 +129,7 @@ namespace TPPCamera.TPPCamComponent {
                 lookAtPointWhenNotVisible,
                 new GUIContent(
                     "Target Not Visible",
-                    "Use to offset target pivot point when target is occluded."));
+                    "Camera rotation when target transform is occluded."));
         }
 
         private void DrawModeDropdown() {
@@ -141,7 +141,7 @@ namespace TPPCamera.TPPCamComponent {
                     +
                     "target can move freely without causing the camera to move. "
                     +
-                    "Use 'Camera Limits' to set the dead zone."));
+                    "Use 'DeadZone' to set the dead zone."));
         }
 
         private void DrawOcclusionLayerMaskDropdown() {
@@ -158,7 +158,7 @@ namespace TPPCamera.TPPCamComponent {
                 offsetWhenNotVisible,
                 new GUIContent(
                     "Target Not Visible",
-                    "Offset applied to 'Camera Offset' when target is not " +
+                    "Camera position offset when target is not " +
                     "visible to the camera."));
         }
 
