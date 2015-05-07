@@ -233,15 +233,15 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void HandleDeadZone() {
-            var exceedLimitX = Mathf.Abs(
+            var exceedDeadZoneX = Mathf.Abs(
                 TargetTransform.position.x - TargetTransformPos.x)
                                > DeadZone.x;
 
-            var exceedLimitZ = Mathf.Abs(
+            var exceedDeadZoneY = Mathf.Abs(
                 TargetTransform.position.z - TargetTransformPos.z)
                                > DeadZone.y;
 
-            if (exceedLimitX || exceedLimitZ) {
+            if (exceedDeadZoneX || exceedDeadZoneY) {
                 var dir =
                     (TargetTransform.position - TargetTransformPos).normalized;
                 var magnitude =
