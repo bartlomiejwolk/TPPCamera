@@ -55,21 +55,21 @@ namespace TPPCamera.TPPCamSetterComponent {
         }
 
         private void HandleUpdateCameraOffset() {
-            var enabled = FlagsHelper.IsSet(
+            var isSet = FlagsHelper.IsSet(
                 Properties,
                 Properties.CameraOffset);
 
-            if (!enabled) return;
+            if (!isSet) return;
 
             CameraCo.CameraOffset = TppCamProperties.CameraOffset;
         }
 
         private void HandleUpdateLookAtPointOffset() {
-            var enabled = FlagsHelper.IsSet(
+            var isSet = FlagsHelper.IsSet(
                 Properties,
                 Properties.LookAtPointOffset);
 
-            if (!enabled) return;
+            if (!isSet) return;
 
             CameraCo.LookAtPointOffset = TppCamProperties.LookAtPointOffset;
         }
