@@ -1,4 +1,9 @@
-﻿using TPPCamera.TPPCamComponent;
+﻿// Copyright (c) 2015 Bartłomiej Wołk (bartlomiejwolk@gmail.com)
+//  
+// This file is part of the TPPCamera extension for Unity.
+// Licensed under the MIT license. See LICENSE file in the project root folder.
+
+using TPPCamera.TPPCamComponent;
 using UnityEngine;
 
 namespace TPPCamera.TPPCamSetterComponent {
