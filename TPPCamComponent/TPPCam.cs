@@ -163,33 +163,32 @@ namespace TPPCamera.TPPCamComponent {
 
         #region METHODS
 
-        // detect if player is visible and set offset accordingly
-        // todo refactor
+        /// <summary>
+        /// Detect if player is visible.
+        /// </summary>
         private void CheckTargetTransformOcclusion() {
-            // get distance and direction for raycast
+            // This is the default camera position if target object was not
+            // moving and wasn't occluded.
             var cameraOffsetPos = TargetTransform.position + CameraOffset;
-            // Ray length decreased by 0.1 to not hit the floor.
+            // Get distance for raycast.
             var tDist =
                 (TargetTransform.position - cameraOffsetPos).magnitude
+                // Ray length decreased by 0.1 to not hit the floor.
                 - 0.1f;
+            // Get direction for raycast.
             var tDir =
                 (TargetTransform.position - cameraOffsetPos).normalized;
 
-            // check if player visible
             RaycastHit hit;
-            if (Physics.Raycast(
-                //cameraOffsetPos + TargetVelocity,
+
+            // Check if player visible.
+            TargetTransformVisible = !Physics.Raycast(
                 cameraOffsetPos,
                 tDir,
                 out hit,
                 tDist,
-                CameraOcclusionLayerMask)) {
+                CameraOcclusionLayerMask);
 
-                TargetTransformVisible = false;
-                return;
-            }
-
-            TargetTransformVisible = true;
         }
 
         private void FollowTarget() {
