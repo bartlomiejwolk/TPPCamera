@@ -18,8 +18,7 @@ namespace TPPCamera.TPPCamComponent {
 
         #region INSPECTOR FIELDS
         [SerializeField]
-        // todo rename to deadZone
-        private Vector2 cameraLimits = new Vector2(5f, 5f);
+        private Vector2 deadZone = new Vector2(5f, 5f);
 
         [SerializeField]
         private LayerMask cameraOcclusionLayerMask = 1 << 9;
@@ -36,7 +35,6 @@ namespace TPPCamera.TPPCamComponent {
         [SerializeField]
         private Vector2 lookAtPointOffset;
 
-        // see through camera variables
         [SerializeField]
         private Vector2 lookAtPointWhenNotVisible;
 
@@ -49,15 +47,14 @@ namespace TPPCamera.TPPCamComponent {
         [SerializeField]
         private float cameraOffsetLerpSpeed = 10f;
 
-        // main variables
         [SerializeField]
         private Transform targetTransform;
         #endregion
 
         #region PROPERTIES
-        public Vector2 CameraLimits {
-            get { return cameraLimits; }
-            set { cameraLimits = value; }
+        public Vector2 DeadZone {
+            get { return deadZone; }
+            set { deadZone = value; }
         }
 
         public LayerMask CameraOcclusionLayerMask {
@@ -214,7 +211,6 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void ApplyEndPosition() {
-            // apply transformations
             transform.position = Vector3.Lerp(
                 transform.position,
                 TargetTransformPos + LerpedCameraOffset,
@@ -284,11 +280,11 @@ namespace TPPCamera.TPPCamComponent {
         private void HandleCameraLimits() {
             var exceedLimitX = Mathf.Abs(
                     TargetTransform.position.x - TargetTransformPos.x)
-                    > CameraLimits.x;
+                    > DeadZone.x;
 
             var exceedLimitZ = Mathf.Abs(
                     TargetTransform.position.z - TargetTransformPos.z)
-                    > CameraLimits.y;
+                    > DeadZone.y;
 
             if (exceedLimitX || exceedLimitZ) {
                 var dir =

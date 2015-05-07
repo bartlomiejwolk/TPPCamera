@@ -14,7 +14,7 @@ namespace TPPCamera.TPPCamComponent {
 
         #region SERIALIZED PROPERTIES
 
-        private SerializedProperty cameraLimits;
+        private SerializedProperty deadZone;
         private SerializedProperty cameraOcclusionLayerMask;
         private SerializedProperty cameraOffset;
         private SerializedProperty cameraRotationSpeed;
@@ -31,7 +31,7 @@ namespace TPPCamera.TPPCamComponent {
         #region UNITY MESSAGES
 
         private void OnEnable() {
-            cameraLimits = serializedObject.FindProperty("cameraLimits");
+            deadZone = serializedObject.FindProperty("deadZone");
             cameraOcclusionLayerMask =
                 serializedObject.FindProperty("cameraOcclusionLayerMask");
             cameraOffset = serializedObject.FindProperty("cameraOffset");
@@ -83,7 +83,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private void DrawCameraLimitsField() {
             EditorGUILayout.PropertyField(
-                cameraLimits,
+                deadZone,
                 new GUIContent(
                     "Camera Limits",
                     "Applies in 'Limited' mode."));
