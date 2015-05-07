@@ -1,5 +1,39 @@
-﻿# GameCamera
+# TPPCamera
 
-Script taken from internet (maybe standard Unity assets). Original author stays unknow.
+Third person perspective camera extension for Unity.   
+Based on the *GameCamera* script which place of origin or author stays unknown.
 
-Read component tooltips for info how to use.
+Licensed under MIT license. See LICENSE file in the project root folder.
+
+## Features
+* Follow speed
+* Camera movement speed
+* Camera rotation speed
+* Dead zone
+* Adjustable camera offset
+* Adjustable camera rotation
+* Adjustable position and rotation if target is occluded
+* Separate setter component that allows changing camera settings in response to some event
+
+Quick Start
+------------------
+
+Help
+-----
+
+Just create an issue and I'll do my best to help.
+
+Contributions
+------------
+
+Pull requests, ideas, questions and any feedback at all are welcome.
+
+Versioning
+----------
+
+Example: `v0.2.3f1`
+
+- `0` Introduces breaking changes.
+- `2` Major release. Adds new features.
+- `3` Minor release. Bug fixes and refactoring.
+- `f1` Quick fix.
