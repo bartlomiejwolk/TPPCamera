@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2015 Bartłomiej Wołk (bartlomiejwolk@gmail.com)
-//  
-// This file is part of the TPPCamera extension for Unity.
-// Licensed under the MIT license. See LICENSE file in the project root folder.
+// 
+// This file is part of the TPPCamera extension for Unity. Licensed under the
+// MIT license. See LICENSE file in the project root folder.
 
 using TPPCamera.TPPCamComponent;
 using UnityEngine;
@@ -9,24 +9,29 @@ using UnityEngine;
 namespace TPPCamera.TPPCamSetterComponent {
 
     public sealed class TPPCamSetter : MonoBehaviour {
-
         #region FIELDS
 
         [SerializeField]
         private TPPCam cameraCo;
 
         [SerializeField]
-        private TPPCamProperties tppCamProperties;
+        private Properties properties;
 
         [SerializeField]
-        private Properties properties;
+        private TPPCamProperties tppCamProperties;
 
         #endregion FIELDS
 
         #region PROPERTIES
+
+        public TPPCam CameraCo {
+            get { return cameraCo; }
+            set { cameraCo = value; }
+        }
+
         /// <summary>
-        /// Keeps info about what properties of the target camera component
-        /// should be updated.
+        ///     Keeps info about what properties of the target camera component
+        ///     should be updated.
         /// </summary>
         public Properties Properties {
             get { return properties; }
@@ -34,19 +39,14 @@ namespace TPPCamera.TPPCamSetterComponent {
         }
 
         /// <summary>
-        /// Properties used to update the target camera component.
+        ///     Properties used to update the target camera component.
         /// </summary>
         public TPPCamProperties TppCamProperties {
             get { return tppCamProperties; }
             set { tppCamProperties = value; }
         }
 
-        public TPPCam CameraCo {
-            get { return cameraCo; }
-            set { cameraCo = value; }
-        }
-
-        #endregion
+        #endregion PROPERTIES
 
         #region METHODS
 
@@ -74,8 +74,7 @@ namespace TPPCamera.TPPCamSetterComponent {
             CameraCo.LookAtPointOffset = TppCamProperties.LookAtPointOffset;
         }
 
-
-        #endregion
+        #endregion METHODS
     }
 
 }
