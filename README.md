@@ -27,7 +27,7 @@ Quick Start
 3. Adjust other settings to your needs.
 4. Run the game and see how camera follows the target.
 
-See also [Examples](Examples) page.
+See also [Examples](https://github.com/bartlomiejwolk/tppcamera/wiki/Examples) page.
 
 Help
 -----
