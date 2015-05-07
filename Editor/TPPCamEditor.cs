@@ -144,7 +144,7 @@ namespace TPPCamera.TPPCamComponent {
                 mode,
                 new GUIContent(
                     "Mode",
-                    "Limited mode creates a dead zone around the target where "
+                    "DeadZone mode creates a dead zone around the target where "
                     +
                     "target can move freely without causing the camera to move. "
                     +

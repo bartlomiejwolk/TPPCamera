@@ -133,7 +133,8 @@ namespace TPPCamera.TPPCamComponent {
         private float LerpPositionSpeed { get; set; }
 
         /// <summary>
-        ///     Holds info about target transform position. Used in Limited mode.
+        ///     Holds info about target transform position.
+        /// Used in DeadZone mode.
         /// </summary>
         private Vector3 TargetTransformPos { get; set; }
 
@@ -284,7 +285,7 @@ namespace TPPCamera.TPPCamComponent {
 
         private void UpdateTargetTransformPosition() {
             switch (Mode) {
-                case Mode.Limited:
+                case Mode.DeadZone:
                     HandleDeadZone();
 
                     TargetTransformPos = new Vector3(
