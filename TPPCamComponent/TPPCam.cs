@@ -232,7 +232,7 @@ namespace TPPCamera.TPPCamComponent {
             ApplyEndRotation();
         }
 
-        private void HandleCameraLimits() {
+        private void HandleDeadZone() {
             var exceedLimitX = Mathf.Abs(
                 TargetTransform.position.x - TargetTransformPos.x)
                                > DeadZone.x;
@@ -285,7 +285,7 @@ namespace TPPCamera.TPPCamComponent {
         private void UpdateTargetTransformPosition() {
             switch (Mode) {
                 case Mode.Limited:
-                    HandleCameraLimits();
+                    HandleDeadZone();
 
                     TargetTransformPos = new Vector3(
                         TargetTransformPos.x,
