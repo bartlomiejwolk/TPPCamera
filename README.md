@@ -19,6 +19,9 @@ Features
 * Adjustable position and rotation if target is occluded
 * Separate [setter](https://github.com/bartlomiejwolk/tppcamera/wiki/Documentation#tppcamsetter) component that allows changing camera settings in response to some event
 
+[Documentation](https://github.com/bartlomiejwolk/tppcamera/wiki/Documentation)   
+[API Reference](https://github.com/bartlomiejwolk/tppcamera/wiki/API%20Reference)
+
 Quick Start
 ------------
 
