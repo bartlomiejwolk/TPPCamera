@@ -7,7 +7,8 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 
 ![TPPCamera](/Resources/cover_screenshot.png?raw=true)
 
-## Features
+Features
+-----
 
 * Follow speed
 * Camera movement speed
@@ -19,7 +20,14 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 * Separate setter component that allows changing camera settings in response to some event
 
 Quick Start
-------------------
+------------
+
+1. Add *TPPCam* component to your main camera.
+2. Reference transform to follow.
+3. Adjust other settings to your needs.
+4. Run the game and see how camera follows the target.
+
+See also [Examples](Examples) page.
 
 Help
 -----
