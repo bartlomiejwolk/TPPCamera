@@ -1,11 +1,14 @@
 # TPPCamera
 
 Third person perspective camera extension for Unity.   
-Based on the *GameCamera* script which place of origin or author stays unknown.
+Based on a *GameCamera* script which place of origin or author stays unknown.
 
 Licensed under MIT license. See LICENSE file in the project root folder.
 
+![TPPCamera](/Resources/cover_screenshot.png?raw=true)
+
 ## Features
+
 * Follow speed
 * Camera movement speed
 * Camera rotation speed
