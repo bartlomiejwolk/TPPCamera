@@ -1,15 +1,14 @@
 #define DEBUG_LOGGER
 
-using FileLogger;
 using UnityEngine;
 
 namespace TPPCamera.TPPCamComponent {
 
     public sealed class TPPCam : MonoBehaviour {
-
         #region FIELDS
+
         /// <summary>
-        /// Final rotation that the camera will be lerping to.
+        ///     Final rotation that the camera will be lerping to.
         /// </summary>
         // todo why it can't be a property?
         private Quaternion endRotation;
@@ -17,8 +16,6 @@ namespace TPPCamera.TPPCamComponent {
         #endregion FIELDS
 
         #region INSPECTOR FIELDS
-        [SerializeField]
-        private Vector2 deadZone = new Vector2(5f, 5f);
 
         [SerializeField]
         private LayerMask cameraOcclusionLayerMask = 1 << 9;
@@ -27,7 +24,13 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 cameraOffset;
 
         [SerializeField]
+        private float cameraOffsetLerpSpeed = 10f;
+
+        [SerializeField]
         private float cameraRotationSpeed = 5f;
+
+        [SerializeField]
+        private Vector2 deadZone = new Vector2(5f, 5f);
 
         [SerializeField]
         private float followSpeed = 5f;
@@ -45,17 +48,11 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 offsetWhenNotVisible;
 
         [SerializeField]
-        private float cameraOffsetLerpSpeed = 10f;
-
-        [SerializeField]
         private Transform targetTransform;
-        #endregion
+
+        #endregion INSPECTOR FIELDS
 
         #region PROPERTIES
-        public Vector2 DeadZone {
-            get { return deadZone; }
-            set { deadZone = value; }
-        }
 
         public LayerMask CameraOcclusionLayerMask {
             get { return cameraOcclusionLayerMask; }
@@ -67,9 +64,19 @@ namespace TPPCamera.TPPCamComponent {
             set { cameraOffset = value; }
         }
 
+        public float CameraOffsetLerpSpeed {
+            get { return cameraOffsetLerpSpeed; }
+            set { cameraOffsetLerpSpeed = value; }
+        }
+
         public float CameraRotationSpeed {
             get { return cameraRotationSpeed; }
             set { cameraRotationSpeed = value; }
+        }
+
+        public Vector2 DeadZone {
+            get { return deadZone; }
+            set { deadZone = value; }
         }
 
         public float FollowSpeed {
@@ -97,53 +104,47 @@ namespace TPPCamera.TPPCamComponent {
             set { offsetWhenNotVisible = value; }
         }
 
-        public float CameraOffsetLerpSpeed {
-            get { return cameraOffsetLerpSpeed; }
-            set { cameraOffsetLerpSpeed = value; }
-        }
-
         public Transform TargetTransform {
             get { return targetTransform; }
             set { targetTransform = value; }
         }
 
         /// <summary>
-        /// Holds info about target transform position.
-        /// Used in Limited mode.
-        /// </summary>
-        private Vector3 TargetTransformPos { get; set; }
-
-        /// <summary>
-        /// Camera offset while following the target transform.
-        /// </summary>
-        private Vector3 LerpedCameraOffset { get; set; }
-
-        /// <summary>
-        /// Camera position lerp speed.
-        /// </summary>
-        private float LerpPositionSpeed { get; set; }
-
-        /// <summary>
-        /// Depending on whether the target transform is occluded or not, 
-        /// this will be one of the two look at point offsets specified in the
-        /// inspector.
-        /// </summary>
-        private Vector3 EndLookAtPointOffset { get; set; }
-
-        /// <summary>
-        /// Depending on whether the target transform is occluded or not, 
-        /// this will be one of the two camera offsets specified in the
-        /// inspector.
+        ///     Depending on whether the target transform is occluded or not, this
+        ///     will be one of the two camera offsets specified in the inspector.
         /// </summary>
         private Vector3 EndCameraOffset { get; set; }
 
         /// <summary>
-        /// This is true when target transform is visible to the camera, ie.
-        /// is not occluded.
+        ///     Depending on whether the target transform is occluded or not, this
+        ///     will be one of the two look at point offsets specified in the
+        ///     inspector.
+        /// </summary>
+        private Vector3 EndLookAtPointOffset { get; set; }
+
+        /// <summary>
+        ///     Camera offset while following the target transform.
+        /// </summary>
+        private Vector3 LerpedCameraOffset { get; set; }
+
+        /// <summary>
+        ///     Camera position lerp speed.
+        /// </summary>
+        private float LerpPositionSpeed { get; set; }
+
+        /// <summary>
+        ///     Holds info about target transform position. Used in Limited mode.
+        /// </summary>
+        private Vector3 TargetTransformPos { get; set; }
+
+        /// <summary>
+        ///     This is true when target transform is visible to the camera, ie. is
+        ///     not occluded.
         /// </summary>
         private bool TargetTransformVisible { get; set; }
 
-        #endregion
+        #endregion PROPERTIES
+
         #region UNITY MESSAGES
 
         private void FixedUpdate() {
@@ -160,8 +161,36 @@ namespace TPPCamera.TPPCamComponent {
 
         #region METHODS
 
+        private void ApplyEndPosition() {
+            transform.position = Vector3.Lerp(
+                transform.position,
+                TargetTransformPos + LerpedCameraOffset,
+                LerpPositionSpeed);
+        }
+
+        private void ApplyEndRotation() {
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                endRotation,
+                CameraRotationSpeed * Time.fixedDeltaTime);
+        }
+
+        private void CalculateEndRotation() {
+            var dir1 = transform.position - TargetTransformPos;
+            var dir2 = (TargetTransformPos + EndLookAtPointOffset + dir1)
+                       - transform.position;
+
+            endRotation.SetLookRotation(
+                dir2,
+                TargetTransform.up);
+        }
+
+        private void CalculateLerpSpeed() {
+            LerpPositionSpeed = FollowSpeed * Time.fixedDeltaTime;
+        }
+
         /// <summary>
-        /// Detect if player is visible.
+        ///     Detect if player is visible.
         /// </summary>
         private void CheckTargetTransformOcclusion() {
             // This is the default camera position if target object was not
@@ -170,7 +199,7 @@ namespace TPPCamera.TPPCamComponent {
             // Get distance for raycast.
             var tDist =
                 (TargetTransform.position - cameraOffsetPos).magnitude
-                // Ray length decreased by 0.1 to not hit the floor.
+                    // Ray length decreased by 0.1 to not hit the floor.
                 - 0.1f;
             // Get direction for raycast.
             var tDir =
@@ -203,47 +232,24 @@ namespace TPPCamera.TPPCamComponent {
             ApplyEndRotation();
         }
 
-        private void ApplyEndRotation() {
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                endRotation,
-                CameraRotationSpeed * Time.fixedDeltaTime);
-        }
+        private void HandleCameraLimits() {
+            var exceedLimitX = Mathf.Abs(
+                TargetTransform.position.x - TargetTransformPos.x)
+                               > DeadZone.x;
 
-        private void ApplyEndPosition() {
-            transform.position = Vector3.Lerp(
-                transform.position,
-                TargetTransformPos + LerpedCameraOffset,
-                LerpPositionSpeed);
-        }
+            var exceedLimitZ = Mathf.Abs(
+                TargetTransform.position.z - TargetTransformPos.z)
+                               > DeadZone.y;
 
-        private void CalculateEndRotation() {
-            var dir1 = transform.position - TargetTransformPos;
-            var dir2 = (TargetTransformPos + EndLookAtPointOffset + dir1)
-                - transform.position;
+            if (exceedLimitX || exceedLimitZ) {
+                var dir =
+                    (TargetTransform.position - TargetTransformPos).normalized;
+                var magnitude =
+                    (TargetTransform.position - TargetTransformPos).magnitude;
 
-            endRotation.SetLookRotation(
-                dir2,
-                TargetTransform.up);
-        }
-
-        private void LerpCameraOffset() {
-            LerpedCameraOffset = Vector3.MoveTowards(
-                LerpedCameraOffset,
-                EndCameraOffset,
-                CameraOffsetLerpSpeed * Time.fixedDeltaTime);
-        }
-
-        private void HandleTargetTransformVisible() {
-            if (!TargetTransformVisible) return;
-
-            EndCameraOffset = CameraOffset;
-
-            EndLookAtPointOffset =
-                new Vector3(
-                    LookAtPointOffset.x,
-                    -LerpedCameraOffset.y,
-                    LookAtPointOffset.y);               
+                TargetTransformPos += dir * magnitude * Time.fixedDeltaTime
+                                      * FollowSpeed;
+            }
         }
 
         private void HandleTargetTransformNotVisible() {
@@ -257,8 +263,23 @@ namespace TPPCamera.TPPCamComponent {
                 LookAtPointWhenNotVisible.y);
         }
 
-        private void CalculateLerpSpeed() {
-            LerpPositionSpeed = FollowSpeed * Time.fixedDeltaTime;
+        private void HandleTargetTransformVisible() {
+            if (!TargetTransformVisible) return;
+
+            EndCameraOffset = CameraOffset;
+
+            EndLookAtPointOffset =
+                new Vector3(
+                    LookAtPointOffset.x,
+                    -LerpedCameraOffset.y,
+                    LookAtPointOffset.y);
+        }
+
+        private void LerpCameraOffset() {
+            LerpedCameraOffset = Vector3.MoveTowards(
+                LerpedCameraOffset,
+                EndCameraOffset,
+                CameraOffsetLerpSpeed * Time.fixedDeltaTime);
         }
 
         private void UpdateTargetTransformPosition() {
@@ -271,29 +292,10 @@ namespace TPPCamera.TPPCamComponent {
                         TargetTransform.position.y,
                         TargetTransformPos.z);
                     break;
+
                 case Mode.Instantenous:
                     TargetTransformPos = TargetTransform.position;
                     break;
-            }
-        }
-
-        private void HandleCameraLimits() {
-            var exceedLimitX = Mathf.Abs(
-                    TargetTransform.position.x - TargetTransformPos.x)
-                    > DeadZone.x;
-
-            var exceedLimitZ = Mathf.Abs(
-                    TargetTransform.position.z - TargetTransformPos.z)
-                    > DeadZone.y;
-
-            if (exceedLimitX || exceedLimitZ) {
-                var dir =
-                    (TargetTransform.position - TargetTransformPos).normalized;
-                var magnitude =
-                    (TargetTransform.position - TargetTransformPos).magnitude;
-
-                TargetTransformPos += dir * magnitude * Time.fixedDeltaTime
-                    * FollowSpeed;
             }
         }
 
