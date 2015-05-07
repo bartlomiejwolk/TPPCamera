@@ -17,7 +17,7 @@ Features
 * Adjustable camera offset
 * Adjustable camera rotation
 * Adjustable position and rotation if target is occluded
-* Separate setter component that allows changing camera settings in response to some event
+* Separate [setter](https://github.com/bartlomiejwolk/tppcamera/wiki/Documentation#tppcamsetter) component that allows changing camera settings in response to some event
 
 Quick Start
 ------------
