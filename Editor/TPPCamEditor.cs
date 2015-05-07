@@ -5,50 +5,29 @@ namespace TPPCamera.TPPCamComponent {
 
     [CustomEditor(typeof (TPPCam))]
     public sealed class TPPCamEditor : Editor {
-
         #region FIELDS
 
         private TPPCam Script { get; set; }
 
-        #endregion
+        #endregion FIELDS
 
         #region SERIALIZED PROPERTIES
 
-        private SerializedProperty deadZone;
         private SerializedProperty cameraOcclusionLayerMask;
         private SerializedProperty cameraOffset;
+        private SerializedProperty cameraOffsetLerpSpeed;
         private SerializedProperty cameraRotationSpeed;
+        private SerializedProperty deadZone;
         private SerializedProperty followSpeed;
         private SerializedProperty lookAtPointOffset;
         private SerializedProperty lookAtPointWhenNotVisible;
         private SerializedProperty mode;
         private SerializedProperty offsetWhenNotVisible;
-        private SerializedProperty cameraOffsetLerpSpeed;
         private SerializedProperty targetTransform;
 
-        #endregion
+        #endregion SERIALIZED PROPERTIES
 
         #region UNITY MESSAGES
-
-        private void OnEnable() {
-            deadZone = serializedObject.FindProperty("deadZone");
-            cameraOcclusionLayerMask =
-                serializedObject.FindProperty("cameraOcclusionLayerMask");
-            cameraOffset = serializedObject.FindProperty("cameraOffset");
-            cameraRotationSpeed =
-                serializedObject.FindProperty("cameraRotationSpeed");
-            followSpeed = serializedObject.FindProperty("followSpeed");
-            lookAtPointOffset =
-                serializedObject.FindProperty("lookAtPointOffset");
-            lookAtPointWhenNotVisible =
-                serializedObject.FindProperty("lookAtPointWhenNotVisible");
-            mode = serializedObject.FindProperty("mode");
-            offsetWhenNotVisible =
-                serializedObject.FindProperty("offsetWhenNotVisible");
-            cameraOffsetLerpSpeed =
-                serializedObject.FindProperty("cameraOffsetLerpSpeed");
-            targetTransform = serializedObject.FindProperty("targetTransform");
-        }
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
@@ -77,7 +56,27 @@ namespace TPPCamera.TPPCamComponent {
             serializedObject.ApplyModifiedProperties();
         }
 
-        #endregion
+        private void OnEnable() {
+            deadZone = serializedObject.FindProperty("deadZone");
+            cameraOcclusionLayerMask =
+                serializedObject.FindProperty("cameraOcclusionLayerMask");
+            cameraOffset = serializedObject.FindProperty("cameraOffset");
+            cameraRotationSpeed =
+                serializedObject.FindProperty("cameraRotationSpeed");
+            followSpeed = serializedObject.FindProperty("followSpeed");
+            lookAtPointOffset =
+                serializedObject.FindProperty("lookAtPointOffset");
+            lookAtPointWhenNotVisible =
+                serializedObject.FindProperty("lookAtPointWhenNotVisible");
+            mode = serializedObject.FindProperty("mode");
+            offsetWhenNotVisible =
+                serializedObject.FindProperty("offsetWhenNotVisible");
+            cameraOffsetLerpSpeed =
+                serializedObject.FindProperty("cameraOffsetLerpSpeed");
+            targetTransform = serializedObject.FindProperty("targetTransform");
+        }
+
+        #endregion UNITY MESSAGES
 
         #region INSPECTOR
 
@@ -89,39 +88,6 @@ namespace TPPCamera.TPPCamComponent {
                     "Applies in 'Limited' mode."));
         }
 
-        private void DrawLookAtPointWhenNotVisibleField() {
-            EditorGUILayout.PropertyField(
-                lookAtPointWhenNotVisible,
-                new GUIContent(
-                    "Target Not Visible",
-                    "Use to offset target pivot point when target is occluded."));
-        }
-
-        private void DrawOffsetWhenNotVisibleField() {
-            EditorGUILayout.PropertyField(
-                offsetWhenNotVisible,
-                new GUIContent(
-                    "Target Not Visible",
-                    "Offset applied to 'Camera Offset' when target is not " +
-                    "visible to the camera."));
-        }
-
-        private void DrawCameraOffsetLerpSpeedField() {
-            EditorGUILayout.PropertyField(
-                cameraOffsetLerpSpeed,
-                new GUIContent(
-                    "Camera Mov. Speed",
-                    "Camera movement speed."));
-        }
-
-        private void DrawLookAtPointOffsetField() {
-            EditorGUILayout.PropertyField(
-                lookAtPointOffset,
-                new GUIContent(
-                    "Target Visible",
-                    "Camera rotation offset."));
-        }
-
         private void DrawCameraOffsetField() {
             EditorGUILayout.PropertyField(
                 cameraOffset,
@@ -130,25 +96,12 @@ namespace TPPCamera.TPPCamComponent {
                     "Default camera position relative to the target."));
         }
 
-        private void DrawOcclusionLayerMaskDropdown() {
+        private void DrawCameraOffsetLerpSpeedField() {
             EditorGUILayout.PropertyField(
-                cameraOcclusionLayerMask,
+                cameraOffsetLerpSpeed,
                 new GUIContent(
-                    "Layer Mask",
-                    "If target gets behind an object specified by the layer mask "
-                    + "it will be considered as occluded."));
-        }
-
-        private void DrawModeDropdown() {
-            EditorGUILayout.PropertyField(
-                mode,
-                new GUIContent(
-                    "Mode",
-                    "DeadZone mode creates a dead zone around the target where "
-                    +
-                    "target can move freely without causing the camera to move. "
-                    +
-                    "Use 'Camera Limits' to set the dead zone."));
+                    "Camera Mov. Speed",
+                    "Camera movement speed."));
         }
 
         private void DrawCameraRotationSpeedField() {
@@ -163,6 +116,52 @@ namespace TPPCamera.TPPCamComponent {
             EditorGUILayout.PropertyField(followSpeed);
         }
 
+        private void DrawLookAtPointOffsetField() {
+            EditorGUILayout.PropertyField(
+                lookAtPointOffset,
+                new GUIContent(
+                    "Target Visible",
+                    "Camera rotation offset."));
+        }
+
+        private void DrawLookAtPointWhenNotVisibleField() {
+            EditorGUILayout.PropertyField(
+                lookAtPointWhenNotVisible,
+                new GUIContent(
+                    "Target Not Visible",
+                    "Use to offset target pivot point when target is occluded."));
+        }
+
+        private void DrawModeDropdown() {
+            EditorGUILayout.PropertyField(
+                mode,
+                new GUIContent(
+                    "Mode",
+                    "DeadZone mode creates a dead zone around the target where "
+                    +
+                    "target can move freely without causing the camera to move. "
+                    +
+                    "Use 'Camera Limits' to set the dead zone."));
+        }
+
+        private void DrawOcclusionLayerMaskDropdown() {
+            EditorGUILayout.PropertyField(
+                cameraOcclusionLayerMask,
+                new GUIContent(
+                    "Layer Mask",
+                    "If target gets behind an object specified by the layer mask "
+                    + "it will be considered as occluded."));
+        }
+
+        private void DrawOffsetWhenNotVisibleField() {
+            EditorGUILayout.PropertyField(
+                offsetWhenNotVisible,
+                new GUIContent(
+                    "Target Not Visible",
+                    "Offset applied to 'Camera Offset' when target is not " +
+                    "visible to the camera."));
+        }
+
         private void DrawTargetTransformField() {
             EditorGUILayout.PropertyField(
                 targetTransform,
@@ -172,7 +171,6 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         #endregion INSPECTOR
-
     }
 
 }
