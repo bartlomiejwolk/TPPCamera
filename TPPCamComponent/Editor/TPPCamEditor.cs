@@ -3,6 +3,7 @@
 // This file is part of the TPPCamera extension for Unity.
 // Licensed under the MIT license. See LICENSE file in the project root folder.
 
+using TPPCamera.TPPCamSetterComponent;
 using UnityEditor;
 using UnityEngine;
 
@@ -176,6 +177,25 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         #endregion INSPECTOR
+
+        #region METHODS
+
+        [MenuItem("Component/TPPCamera/TPPCam")]
+        private static void AddTPPCamComponent() {
+            if (Selection.activeGameObject != null) {
+                Selection.activeGameObject.AddComponent(typeof (TPPCam));
+            }
+        }
+
+        [MenuItem("Component/TPPCamera/TPPCamSetter")]
+        private static void AddTPPCamSetterComponent() {
+            if (Selection.activeGameObject != null) {
+                Selection.activeGameObject.AddComponent(typeof (TPPCamSetter));
+            }
+        }
+
+
+        #endregion METHODS
     }
 
 }
