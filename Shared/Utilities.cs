@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2015 Bartłomiej Wołk (bartlomiejwolk@gmail.com)
-//  
-// This file is part of the TPPCamera extension for Unity.
-// Licensed under the MIT license. See LICENSE file in the project root folder.
+// 
+// This file is part of the TPPCamera extension for Unity. Licensed under the
+// MIT license. See LICENSE file in the project root folder.
 
 using System;
 using System.Diagnostics;
@@ -16,7 +16,7 @@ namespace TPPCamera {
         /// <summary>
         /// </summary>
         /// <remarks>
-        ///     http: //forum.unity3d.com/threads/assert-class-for-debugging.59010/
+        ///     http://forum.unity3d.com/threads/assert-class-for-debugging.59010/
         /// </remarks>
         /// <param name="assertion"></param>
         /// <param name="assertString"></param>
@@ -53,8 +53,7 @@ namespace TPPCamera {
         /// <param name="epsilon"></param>
         /// <returns></returns>
         /// <remarks>
-        ///     http:
-        ///     //stackoverflow.com/questions/3874627/floating-point-comparison-functions-for-c-sharp
+        ///     http://stackoverflow.com/questions/3874627/floating-point-comparison-functions-for-c-sharp
         /// </remarks>
         public static bool FloatsEqual(float a, float b, float epsilon) {
             var absA = Math.Abs(a);
