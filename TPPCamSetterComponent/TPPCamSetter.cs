@@ -8,14 +8,6 @@ using UnityEngine;
 
 namespace TPPCamera.TPPCamSetterComponent {
 
-    // todo extract to file
-    public enum Properties {
-
-        CameraOffset = 0x0001,
-        LookAtPointOffset = 0x0002
-
-    }
-
     public sealed class TPPCamSetter : MonoBehaviour {
 
         #region FIELDS
