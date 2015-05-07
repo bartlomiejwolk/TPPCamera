@@ -1,5 +1,5 @@
 // Copyright (c) 2015 Bart³omiej Wo³k (bartlomiejwolk@gmail.com)
-//  
+// 
 // This file is part of the TPPCamera extension for Unity.
 // Licensed under the MIT license. See LICENSE file in the project root folder.
 
@@ -8,11 +8,11 @@ using UnityEngine;
 namespace TPPCamera.TPPCamComponent {
 
     /// <summary>
-    /// Controls camera movement.
-    /// <remarks>
-    /// The class is based on the GameCamera script.
-    /// </remarks>
+    ///     Controls camera movement.
     /// </summary>
+    /// <remarks>
+    ///     The class is based on the GameCamera script.
+    /// </remarks>
     public sealed class TPPCam : MonoBehaviour {
         #region FIELDS
 
@@ -142,8 +142,7 @@ namespace TPPCamera.TPPCamComponent {
         private float LerpPositionSpeed { get; set; }
 
         /// <summary>
-        ///     Holds info about target transform position.
-        /// Used in DeadZone mode.
+        ///     Holds info about target transform position. Used in DeadZone mode.
         /// </summary>
         private Vector3 TargetTransformPos { get; set; }
 
@@ -245,11 +244,11 @@ namespace TPPCamera.TPPCamComponent {
         private void HandleDeadZone() {
             var exceedDeadZoneX = Mathf.Abs(
                 TargetTransform.position.x - TargetTransformPos.x)
-                               > DeadZone.x;
+                                  > DeadZone.x;
 
             var exceedDeadZoneY = Mathf.Abs(
                 TargetTransform.position.z - TargetTransformPos.z)
-                               > DeadZone.y;
+                                  > DeadZone.y;
 
             if (exceedDeadZoneX || exceedDeadZoneY) {
                 var dir =
