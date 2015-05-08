@@ -1,7 +1,7 @@
-﻿// Copyright (c) 2015 Bartłomiej Wołk (bartlomiejwolk@gmail.com)
+﻿// Copyright (c) 2015 Bartlomiej Wolk (bartlomiejwolk@gmail.com)
 // 
-// This file is part of the TPPCamera extension for Unity.
-// Licensed under the MIT license. See LICENSE file in the project root folder.
+// This file is part of the TPPCamera extension for Unity. Licensed under the
+// MIT license. See LICENSE file in the project root folder.
 
 using UnityEditor;
 using UnityEngine;
@@ -23,12 +23,7 @@ namespace TPPCamera.TPPCamSetterComponent {
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(
-                cameraCo,
-                new GUIContent(
-                    "TPPCam Comp.",
-                    ""));
-
+            DrawCameraComponentField();
             DrawPropertiesDropdown();
 
             EditorGUILayout.Space();
@@ -39,6 +34,14 @@ namespace TPPCamera.TPPCamSetterComponent {
             HandleDrawLookAtPointOffsetField();
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawCameraComponentField() {
+            EditorGUILayout.PropertyField(
+                cameraCo,
+                new GUIContent(
+                    "TPPCam Comp.",
+                    "TPPCam component reference."));
         }
 
         private void OnEnable() {
@@ -55,7 +58,7 @@ namespace TPPCamera.TPPCamSetterComponent {
             Script.Properties = (Properties) EditorGUILayout.EnumMaskField(
                 new GUIContent(
                     "Properties",
-                    ""),
+                    "Properties of the TPPCam component that can be updated."),
                 Script.Properties);
         }
 
@@ -85,7 +88,7 @@ namespace TPPCamera.TPPCamSetterComponent {
                 EditorGUILayout.Vector2Field(
                     new GUIContent(
                         "Look At Point Offset",
-                        ""),
+                        "Default camera rotation"),
                     Script.TppCamProperties.LookAtPointOffset);
         }
 
