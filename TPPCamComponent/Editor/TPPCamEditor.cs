@@ -88,6 +88,14 @@ namespace TPPCamera.TPPCamComponent {
         #endregion UNITY MESSAGES
 
         #region INSPECTOR
+        private void DrawVersionLabel() {
+            EditorGUILayout.LabelField(
+                string.Format(
+                    "{0} ({1})",
+                    TPPCam.VERSION,
+                    TPPCam.EXTENSION));
+        }
+
 
         private void DrawCameraLimitsField() {
             EditorGUILayout.PropertyField(
@@ -196,14 +204,6 @@ namespace TPPCamera.TPPCamComponent {
                 Selection.activeGameObject.AddComponent(typeof (TPPCamSetter));
             }
         }
-        private void DrawVersionLabel() {
-            EditorGUILayout.LabelField(
-                string.Format(
-                    "{0} ({1})",
-                    TPPCam.VERSION,
-                    TPPCam.EXTENSION));
-        }
-
         #endregion METHODS
     }
 
