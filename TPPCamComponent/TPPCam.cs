@@ -14,6 +14,14 @@ namespace TPPCamera.TPPCamComponent {
     ///     The class is based on the GameCamera script.
     /// </remarks>
     public sealed class TPPCam : MonoBehaviour {
+
+        #region CONSTANTS
+
+        public const string EXTENSION = "TPPCamera";
+        public const string VERSION = "v0.1.1";
+
+        #endregion CONSTANTS
+
         #region FIELDS
 
         /// <summary>

@@ -38,6 +38,7 @@ namespace TPPCamera.TPPCamComponent {
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
+            DrawVersionLabel();
             DrawTargetTransformField();
             DrawFollowSpeedField();
             DrawCameraOffsetLerpSpeedField();
@@ -193,7 +194,13 @@ namespace TPPCamera.TPPCamComponent {
                 Selection.activeGameObject.AddComponent(typeof (TPPCamSetter));
             }
         }
-
+        private void DrawVersionLabel() {
+            EditorGUILayout.LabelField(
+                string.Format(
+                    "{0} ({1})",
+                    TPPCam.VERSION,
+                    TPPCam.EXTENSION));
+        }
 
         #endregion METHODS
     }
