@@ -1,8 +1,9 @@
-﻿// Copyright (c) 2015 Bartłomiej Wołk (bartlomiejwolk@gmail.com)
-//  
-// This file is part of the TPPCamera extension for Unity.
-// Licensed under the MIT license. See LICENSE file in the project root folder.
+﻿// Copyright (c) 2015 Bartlomiej Wolk (bartlomiejwolk@gmail.com)
+// 
+// This file is part of the TPPCamera extension for Unity. Licensed under the
+// MIT license. See LICENSE file in the project root folder.
 
+using TPPCamera.TPPCamSetterComponent;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,6 +38,7 @@ namespace TPPCamera.TPPCamComponent {
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
+            DrawVersionLabel();
             DrawTargetTransformField();
             DrawFollowSpeedField();
             DrawCameraOffsetLerpSpeedField();
@@ -176,6 +178,31 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         #endregion INSPECTOR
+
+        #region METHODS
+
+        [MenuItem("Component/TPPCamera/TPPCam")]
+        private static void AddTPPCamComponent() {
+            if (Selection.activeGameObject != null) {
+                Selection.activeGameObject.AddComponent(typeof (TPPCam));
+            }
+        }
+
+        [MenuItem("Component/TPPCamera/TPPCamSetter")]
+        private static void AddTPPCamSetterComponent() {
+            if (Selection.activeGameObject != null) {
+                Selection.activeGameObject.AddComponent(typeof (TPPCamSetter));
+            }
+        }
+        private void DrawVersionLabel() {
+            EditorGUILayout.LabelField(
+                string.Format(
+                    "{0} ({1})",
+                    TPPCam.VERSION,
+                    TPPCam.EXTENSION));
+        }
+
+        #endregion METHODS
     }
 
 }

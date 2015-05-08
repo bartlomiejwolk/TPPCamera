@@ -1,7 +1,7 @@
-// Copyright (c) 2015 Bart³omiej Wo³k (bartlomiejwolk@gmail.com)
+// Copyright (c) 2015 Bartlomiej Wolk (bartlomiejwolk@gmail.com)
 // 
-// This file is part of the TPPCamera extension for Unity.
-// Licensed under the MIT license. See LICENSE file in the project root folder.
+// This file is part of the TPPCamera extension for Unity. Licensed under the
+// MIT license. See LICENSE file in the project root folder.
 
 using UnityEngine;
 
@@ -14,6 +14,14 @@ namespace TPPCamera.TPPCamComponent {
     ///     The class is based on the GameCamera script.
     /// </remarks>
     public sealed class TPPCam : MonoBehaviour {
+
+        #region CONSTANTS
+
+        public const string EXTENSION = "TPPCamera";
+        public const string VERSION = "v0.1.1";
+
+        #endregion CONSTANTS
+
         #region FIELDS
 
         /// <summary>
@@ -277,11 +285,10 @@ namespace TPPCamera.TPPCamComponent {
 
             EndCameraOffset = CameraOffset;
 
-            EndLookAtPointOffset =
-                new Vector3(
-                    LookAtPointOffset.x,
-                    -LerpedCameraOffset.y,
-                    LookAtPointOffset.y);
+            EndLookAtPointOffset = new Vector3(
+                LookAtPointOffset.x,
+                -LerpedCameraOffset.y,
+                LookAtPointOffset.y);
         }
 
         private void LerpCameraOffset() {

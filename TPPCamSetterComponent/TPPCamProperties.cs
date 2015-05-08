@@ -1,7 +1,7 @@
-﻿// Copyright (c) 2015 Bartłomiej Wołk (bartlomiejwolk@gmail.com)
+﻿// Copyright (c) 2015 Bartlomiej Wolk (bartlomiejwolk@gmail.com)
 // 
-// This file is part of the TPPCamera extension for Unity.
-// Licensed under the MIT license. See LICENSE file in the project root folder.
+// This file is part of the TPPCamera extension for Unity. Licensed under the
+// MIT license. See LICENSE file in the project root folder.
 
 using UnityEngine;
 
