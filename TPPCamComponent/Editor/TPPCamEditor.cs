@@ -64,6 +64,8 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void OnEnable() {
+            Script = (TPPCam) target;
+
             deadZone = serializedObject.FindProperty("deadZone");
             cameraOcclusionLayerMask =
                 serializedObject.FindProperty("cameraOcclusionLayerMask");
