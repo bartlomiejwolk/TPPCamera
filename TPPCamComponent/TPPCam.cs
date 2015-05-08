@@ -285,11 +285,10 @@ namespace TPPCamera.TPPCamComponent {
 
             EndCameraOffset = CameraOffset;
 
-            EndLookAtPointOffset =
-                new Vector3(
-                    LookAtPointOffset.x,
-                    -LerpedCameraOffset.y,
-                    LookAtPointOffset.y);
+            EndLookAtPointOffset = new Vector3(
+                LookAtPointOffset.x,
+                -LerpedCameraOffset.y,
+                LookAtPointOffset.y);
         }
 
         private void LerpCameraOffset() {
