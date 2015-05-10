@@ -165,7 +165,6 @@ namespace TPPCamera.TPPCamComponent {
         #region UNITY MESSAGES
 
         private void FixedUpdate() {
-            // todo this should rather be done in LateUpdate()
             FollowTarget();
         }
 
