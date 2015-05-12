@@ -21,7 +21,6 @@ namespace TPPCamera.TPPCamComponent {
 
         private SerializedProperty cameraOcclusionLayerMask;
         private SerializedProperty cameraOffset;
-        private SerializedProperty cameraOffsetLerpSpeed;
         private SerializedProperty cameraRotationSpeed;
         private SerializedProperty deadZone;
         private SerializedProperty followSpeed;
@@ -41,7 +40,6 @@ namespace TPPCamera.TPPCamComponent {
             DrawVersionLabel();
             DrawTargetTransformField();
             DrawFollowSpeedField();
-            DrawCameraOffsetLerpSpeedField();
             DrawCameraRotationSpeedField();
             DrawModeDropdown();
             DrawOcclusionLayerMaskDropdown();
@@ -80,8 +78,6 @@ namespace TPPCamera.TPPCamComponent {
             mode = serializedObject.FindProperty("mode");
             offsetWhenNotVisible =
                 serializedObject.FindProperty("offsetWhenNotVisible");
-            cameraOffsetLerpSpeed =
-                serializedObject.FindProperty("cameraOffsetLerpSpeed");
             targetTransform = serializedObject.FindProperty("targetTransform");
         }
 
@@ -111,14 +107,6 @@ namespace TPPCamera.TPPCamComponent {
                 new GUIContent(
                     "Target Visible",
                     "Default camera position relative to the target."));
-        }
-
-        private void DrawCameraOffsetLerpSpeedField() {
-            EditorGUILayout.PropertyField(
-                cameraOffsetLerpSpeed,
-                new GUIContent(
-                    "Camera Mov. Speed",
-                    "Camera movement speed."));
         }
 
         private void DrawCameraRotationSpeedField() {
