@@ -164,7 +164,7 @@ namespace TPPCamera.TPPCamComponent {
 
         #region UNITY MESSAGES
 
-        private void FixedUpdate() {
+        private void LateUpdate() {
             FollowTarget();
         }
 
@@ -181,14 +181,14 @@ namespace TPPCamera.TPPCamComponent {
             transform.position = Vector3.Lerp(
                 transform.position,
                 TargetTransformPos + LerpedCameraOffset,
-                LerpPositionSpeed);
+                LerpPositionSpeed * Time.deltaTime);
         }
 
         private void ApplyEndRotation() {
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 endRotation,
-                CameraRotationSpeed * Time.fixedDeltaTime);
+                CameraRotationSpeed * Time.deltaTime);
         }
 
         private void CalculateEndRotation() {
@@ -202,7 +202,7 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void CalculateLerpSpeed() {
-            LerpPositionSpeed = FollowSpeed * Time.fixedDeltaTime;
+            LerpPositionSpeed = FollowSpeed;
         }
 
         /// <summary>
