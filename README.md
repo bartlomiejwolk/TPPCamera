@@ -10,7 +10,6 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 Features
 -----
 
-* Follow speed
 * Camera movement speed
 * Camera rotation speed
 * Dead zone
