@@ -21,7 +21,6 @@ namespace TPPCamera.TPPCamComponent {
 
         private SerializedProperty cameraOcclusionLayerMask;
         private SerializedProperty cameraOffset;
-        private SerializedProperty cameraOffsetLerpSpeed;
         private SerializedProperty cameraRotationSpeed;
         private SerializedProperty deadZone;
         private SerializedProperty followSpeed;
@@ -41,7 +40,6 @@ namespace TPPCamera.TPPCamComponent {
             DrawVersionLabel();
             DrawTargetTransformField();
             DrawFollowSpeedField();
-            DrawCameraOffsetLerpSpeedField();
             DrawCameraRotationSpeedField();
             DrawModeDropdown();
             DrawOcclusionLayerMaskDropdown();
@@ -64,6 +62,8 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void OnEnable() {
+            Script = (TPPCam) target;
+
             deadZone = serializedObject.FindProperty("deadZone");
             cameraOcclusionLayerMask =
                 serializedObject.FindProperty("cameraOcclusionLayerMask");
@@ -78,14 +78,20 @@ namespace TPPCamera.TPPCamComponent {
             mode = serializedObject.FindProperty("mode");
             offsetWhenNotVisible =
                 serializedObject.FindProperty("offsetWhenNotVisible");
-            cameraOffsetLerpSpeed =
-                serializedObject.FindProperty("cameraOffsetLerpSpeed");
             targetTransform = serializedObject.FindProperty("targetTransform");
         }
 
         #endregion UNITY MESSAGES
 
         #region INSPECTOR
+        private void DrawVersionLabel() {
+            EditorGUILayout.LabelField(
+                string.Format(
+                    "{0} ({1})",
+                    TPPCam.VERSION,
+                    TPPCam.EXTENSION));
+        }
+
 
         private void DrawCameraLimitsField() {
             EditorGUILayout.PropertyField(
@@ -103,14 +109,6 @@ namespace TPPCamera.TPPCamComponent {
                     "Default camera position relative to the target."));
         }
 
-        private void DrawCameraOffsetLerpSpeedField() {
-            EditorGUILayout.PropertyField(
-                cameraOffsetLerpSpeed,
-                new GUIContent(
-                    "Camera Mov. Speed",
-                    "Camera movement speed."));
-        }
-
         private void DrawCameraRotationSpeedField() {
             EditorGUILayout.PropertyField(
                 cameraRotationSpeed,
@@ -120,7 +118,11 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void DrawFollowSpeedField() {
-            EditorGUILayout.PropertyField(followSpeed);
+            EditorGUILayout.PropertyField(
+                followSpeed,
+                new GUIContent(
+                    "Follow Speed",
+                    "Camera movement speed."));
         }
 
         private void DrawLookAtPointOffsetField() {
@@ -145,10 +147,8 @@ namespace TPPCamera.TPPCamComponent {
                 new GUIContent(
                     "Mode",
                     "DeadZone mode creates a dead zone around the target where "
-                    +
-                    "target can move freely without causing the camera to move. "
-                    +
-                    "Use 'DeadZone' to set the dead zone."));
+                    + "target can move freely without causing the camera to move. "
+                    + "Use 'DeadZone' to set the dead zone."));
         }
 
         private void DrawOcclusionLayerMaskDropdown() {
@@ -194,14 +194,6 @@ namespace TPPCamera.TPPCamComponent {
                 Selection.activeGameObject.AddComponent(typeof (TPPCamSetter));
             }
         }
-        private void DrawVersionLabel() {
-            EditorGUILayout.LabelField(
-                string.Format(
-                    "{0} ({1})",
-                    TPPCam.VERSION,
-                    TPPCam.EXTENSION));
-        }
-
         #endregion METHODS
     }
 

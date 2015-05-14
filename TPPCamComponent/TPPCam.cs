@@ -145,11 +145,6 @@ namespace TPPCamera.TPPCamComponent {
         private Vector3 LerpedCameraOffset { get; set; }
 
         /// <summary>
-        ///     Camera position lerp speed.
-        /// </summary>
-        private float LerpPositionSpeed { get; set; }
-
-        /// <summary>
         ///     Holds info about target transform position. Used in DeadZone mode.
         /// </summary>
         private Vector3 TargetTransformPos { get; set; }
@@ -164,8 +159,7 @@ namespace TPPCamera.TPPCamComponent {
 
         #region UNITY MESSAGES
 
-        private void FixedUpdate() {
-            // todo this should rather be done in LateUpdate()
+        private void LateUpdate() {
             FollowTarget();
         }
 
@@ -182,14 +176,14 @@ namespace TPPCamera.TPPCamComponent {
             transform.position = Vector3.Lerp(
                 transform.position,
                 TargetTransformPos + LerpedCameraOffset,
-                LerpPositionSpeed);
+                FollowSpeed * Time.deltaTime);
         }
 
         private void ApplyEndRotation() {
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 endRotation,
-                CameraRotationSpeed * Time.fixedDeltaTime);
+                CameraRotationSpeed * Time.deltaTime);
         }
 
         private void CalculateEndRotation() {
@@ -200,10 +194,6 @@ namespace TPPCamera.TPPCamComponent {
             endRotation.SetLookRotation(
                 dir2,
                 TargetTransform.up);
-        }
-
-        private void CalculateLerpSpeed() {
-            LerpPositionSpeed = FollowSpeed * Time.fixedDeltaTime;
         }
 
         /// <summary>
@@ -237,7 +227,6 @@ namespace TPPCamera.TPPCamComponent {
         private void FollowTarget() {
             if (TargetTransform == null) return;
 
-            CalculateLerpSpeed();
             UpdateTargetTransformPosition();
             CheckTargetTransformOcclusion();
             HandleTargetTransformVisible();
