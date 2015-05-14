@@ -118,7 +118,11 @@ namespace TPPCamera.TPPCamComponent {
         }
 
         private void DrawFollowSpeedField() {
-            EditorGUILayout.PropertyField(followSpeed);
+            EditorGUILayout.PropertyField(
+                followSpeed,
+                new GUIContent(
+                    "Follow Speed",
+                    "Camera movement speed."));
         }
 
         private void DrawLookAtPointOffsetField() {
@@ -143,10 +147,8 @@ namespace TPPCamera.TPPCamComponent {
                 new GUIContent(
                     "Mode",
                     "DeadZone mode creates a dead zone around the target where "
-                    +
-                    "target can move freely without causing the camera to move. "
-                    +
-                    "Use 'DeadZone' to set the dead zone."));
+                    + "target can move freely without causing the camera to move. "
+                    + "Use 'DeadZone' to set the dead zone."));
         }
 
         private void DrawOcclusionLayerMaskDropdown() {
