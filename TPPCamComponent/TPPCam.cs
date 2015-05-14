@@ -18,7 +18,7 @@ namespace TPPCamera.TPPCamComponent {
         #region CONSTANTS
 
         public const string EXTENSION = "TPPCamera";
-        public const string VERSION = "v0.1.1";
+        public const string VERSION = "v0.1.2";
 
         #endregion CONSTANTS
 
